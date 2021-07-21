@@ -26,7 +26,12 @@
     var tool = new paper.Tool();
     var path = new paper.Path();
     var uid = Date.now() % 10000;
-    path.strokeColor = "red";
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    path.strokeColor = color;
 
     // getting the URL (you may want to use for Exercise 3)
     var url = window.location.href;
@@ -37,7 +42,7 @@
     tool.onMouseMove = function(event) { //http://paperjs.org/reference/tool/ path examples
        path.add(event.point);
        // You may need to add code here if you want to pass any other information.
-       socket.send("{\"x\" : " + event.point.x + ", \"y\" : " + event.point.y + ", \"uid\" : " + uid + "}" );
+       socket.send("{\"x\" : " + event.point.x + ", \"y\" : " + event.point.y + ", \"uid\" : " + uid + ", \"color\" : " + color + "}" );
     }
 
     socket.onmessage = function(receivedMessage) {
@@ -45,6 +50,7 @@
         console.log("Received: " + JSON.stringify(received));
         // You will probably want to add some code here to draw more lines.
         var point = new paper.Point(received["x"], received["y"]);
+        path.strokeColor = received["color"];
         path.add(point);
     }
 

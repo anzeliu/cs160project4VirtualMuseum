@@ -1,5 +1,4 @@
-from django.contrib import admin
-from django.urls import include, path
+from django.urls import path
 from . import views
 
 urlpatterns = [
@@ -13,4 +12,5 @@ urlpatterns = [
     path('color_picker', views.color_picker, name='color_picker'),
     path('chat_room', views.chat_room, name='chat_room'),
     path('museum_display', views.museum_display, name='museum_display'),
+    path('<str:room_name>/', views.room, name='room')
 ]

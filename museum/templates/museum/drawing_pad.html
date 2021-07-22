@@ -45,7 +45,7 @@
         position: absolute;
         top: 11vh;
         left: 1vw;
-        height: 75vh;
+        height: 74vh;
         width: 98vw;
         background-color: #ffffff;
 	}
@@ -75,21 +75,6 @@
         line-height: 16.6vw;
 	}
 
-
-    #newPageButton {
-        position: relative;
-        background-color: #fdfcdc;
-        border-color: #fdfcdc;
-        top: -74.7vh;
-        left: 79.55vw;
-        /* left: 0; */
-        height: 7vh;
-        width: 9vh;
-        border-width: .5vh;
-        text-align: center;
-        font-size: 6vh;
-        line-height: 4vh;
-    }
 	.modal {
         display: none;
         /* Hidden by default */
@@ -121,6 +106,15 @@
     	width: 80%;
 	}
 
+    #discardMessage {
+        border-color: #30251E; 
+        background-color: #a2b4ac; 
+        line-height: 6vh; 
+        font-size: 5vh; 
+        text-align: center; 
+        padding-top: 1.5vh; 
+        padding-bottom: 1.5 vh;
+    }
 	.close:hover,
 	.close:focus {
     	color: black;
@@ -393,28 +387,34 @@
 <body style="overflow: hidden;">
 	<div class="container-fluid" style="height: 100vh; background-color: #e6d5aa">
 		<div class="row" style="height: 10vh">
-			<div id = "homeButton" class="col-2 padButton" onclick="goHome()" onmouseover = "overPadButton('homeButton')" onmouseout = "outPadButton('homeButton')">
+			<div id = "homeButton" style = "border-right: none" class="col-2 padButton" onclick="goHome()" onmouseover = "overPadButton('homeButton')" onmouseout = "outPadButton('homeButton')">
 				<i class="bi bi-house-door-fill"></i>
 			</div>
-			<div id="undoButton" class="col-2 padButton" onclick="undo()" onmouseover = "overPadButton('undoButton')" onmouseout = "outPadButton('undoButton')">
+			<div id="undoButton" style = "border-right: none" class="col-2 padButton" onclick="undo()" onmouseover = "overPadButton('undoButton')" onmouseout = "outPadButton('undoButton')">
 				<i class="bi bi-arrow-counterclockwise"></i>
 			</div>
-			<div id = "redoButton" class="col-2 padButton" onclick="redo()" onmouseover = "overPadButton('redoButton')" onmouseout = "outPadButton('redoButton')">
+			<div id = "redoButton" style = "border-right: none" class="col-2 padButton" onclick="redo()" onmouseover = "overPadButton('redoButton')" onmouseout = "outPadButton('redoButton')">
 				<i class="bi bi-arrow-clockwise"></i>
 			</div>
-			<div id="saveButton" class="col-2 padButton" onclick="saveClick()" onmouseover = "overPadButton('saveButton')" onmouseout = "outPadButton('saveButton')">
+			<div id="saveButton" style = "border-right: none" class="col-2 padButton" onclick="saveClick()" onmouseover = "overPadButton('saveButton')" onmouseout = "outPadButton('saveButton')">
 				<i class="bi bi-save2-fill"></i>
 			</div>
 			<div class="col-4 colorButton strokeColor" onclick="goToColorPicker()" onmouseover = "overPadButton('undoButton')" onmouseout = "outPadButton('undoButton')">
 				Color Palette
 			</div>
 		</div>
-
 		<div id="canvasSheet">
-			<canvas id="myCanvas" width="750px" height="750px"></canvas>
-			<div id="newPageButton">
-				<i class="bi bi-file-earmark-plus-fill"></i>
-			</div>	
+			<div class="row justify-content-end">
+			    <div class="col-2">
+				    <a id = "newPageButton" style = "color: #000000; background-color: #ffffff; border: none" class = 'btn btn-secondary d-flex justify-content-center' role = 'button' aria-pressed = 'true'>
+					    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                            <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"/>
+                            <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                        </svg>
+				    </a>
+			    </div>
+            </div>
+            <canvas id="myCanvas" width="750px" height="750px"></canvas>
 		</div>
 
 		<div id="myModal" class="modal">
@@ -440,14 +440,20 @@
 		</div>
 
 		<div id="NPM" class="modal">
-			<div class="modal-content" style="width: 90%; top: 10vh">
-				<div class="container-fluid" style="border-style: solid; border-width: .3vh;">
-					<div class="row" style="font-size: 5vh; border-bottom-style: solid; border-width: .3vh;">
-						<div id="CloseNPM" class="col-2 modalClose" style="border-right-style: solid; border-right-width: .3vh; text-align: center; background-color: lightgray;"> X </div>
-						<div class="col-10" style="font-size: 2.7vh; text-align: center; padding-top: 1.8vh;">This will discard the current artwork</div>
+			<div class="modal-content" style="width: 90%; top: 16vh">
+				<div class="container-fluid" style="border: .3vh solid #30251E">
+					<div class="row" style="height: 16vh; font-size: 5vh;">
+						<div id="CloseNPM" class="col-2 modalClose" style="padding-top: 5vh; border-right: .3vh solid #30251E; background-color: #e6dbd0;"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+                            </svg> 
+                        </div>
+						<div class="col-10" id = "discardMessage">
+                            This will discard the current artwork
+                        </div>
 					</div>
-					<div class="row d-flex justify-content-center" onclick="clearImage(); newPageModal.style.display='none'" style="font-size: 5vh; background-color: #83c5be; border-style: solid; border-width: .3vh; border-color: #000000;">
-						<div class="col-12" style="text-align: center;">
+					<div class="row d-flex justify-content-center" onclick="clearImage(); newPageModal.style.display='none'" style="font-size: 5vh; background-color: #51624f; border-top: .3vh solid #30251E;">
+						<div class="col-12" style="text-align: center; color: #ffffff">
 							Clear Canvas
 						</div>
 					</div>
@@ -455,7 +461,7 @@
 			</div>
 		</div>
 
-		<div class="row" style="background: #ffffff; border-left: 1vw solid #e6d5aa; border-right: 1vw solid #e6d5aa; border-top: 1vh solid #e6d5aa; position: absolute; top: 85vh; height: 20vh; width: 100vw;">
+		<div class="row" style="background: #ffffff; border-left: 1vw solid #e6d5aa; border-right: 1vw solid #e6d5aa; border-top: 1vh solid #e6d5aa; border-bottom: 1vh solid #e6d5aa; position: absolute; top: 85vh; height: 15.5vh; width: 100vw;">
 			<div class="col-1"></div>
 			<div id="pencilDiv" class="col-2">
 				<img id="pencilIcon" src ="{% static 'museum/images/pencil.png' %}" alt="pencil" class="icon" style="width: 100%;"></img>
@@ -624,11 +630,11 @@
 				prevGroups = getPreviousGroups();
 				unGroups = getUndoneGroups();
 				if (!(button == "undoButton" || button == "redoButton")) {
-					document.getElementById(button).style.backgroundColor = "#FFDDD2";
+					document.getElementById(button).style.backgroundColor = "#51624f";
 				}
 			}
 			function outPadButton(button) {
-				document.getElementById(button).style.backgroundColor = "#E29578";
+				document.getElementById(button).style.backgroundColor = "#AEBEA1";
 			}
 	</script>
 </body>

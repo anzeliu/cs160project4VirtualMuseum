@@ -11,23 +11,7 @@
     <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
 
 <style type="text/css">
-	#color-palette {
-		width: 300px;
-		background-color: #f1f1f1;
-		display: flex;
-		flex-wrap: wrap;
-		position: absolute;
-		top: 0;
-	}
 
-	.swatch {
-		width: 24px;
-		height: 24px;
-		-moz-border-radius: 12px;
-		-webkit-border-radius: 12px;
-		border-radius: 12px;
-		margin: 3px;
-	}
 
 	#myCanvas {
 		padding-left: 0;
@@ -40,6 +24,7 @@
 	.padButton {
     background-color: #AEBEA1;
     color: black;
+    height: 10vh;
     border-width: .vh;
     border-style: solid;
     border-color: #907f9f;
@@ -53,13 +38,13 @@
     	height: 50px;
 	}
 
-	#psheet {
-    position: absolute;
-    top: 11vh;
-    left: 4vw;
-    height: 75vh;
-    width: 92vw;
-    background-color: #fdfcdc;
+	#canvasSheet {
+        position: absolute;
+        top: 10vh;
+        left: 4vw;
+        height: 80vh;
+        width: 92vw;
+        background-color: #fdfcdc;
 	}
 
 	.icon {
@@ -77,6 +62,7 @@
 
 	.colorButton {
     color: black;
+    height: 10vh;
     text-shadow: -2px -2px 0 #FFF, 2px -2px 0 #FFF, -2px 2px 0 #FFF, 2px 2px 0 #FFF;
     border-width: .3vh;
     border-style: solid;
@@ -180,7 +166,6 @@
 					console.log(picture);
 				} catch {
 					console.log("problem importing pic");
-					// picture = new Group();
 				}
 				if (undoneGroups == null) {
 					undoneGroups = [];
@@ -199,8 +184,6 @@
 
 				function drawDown(event, width) {
 					previousGroups.push(picture.exportJSON());
-					// paths.push(new Path());
-					// curPath = paths[paths.length - 1];
 					curPath = new Path();
 					curPath.strokeColor = colorFromPicker;
 					curPath.strokeWidth = width;
@@ -210,8 +193,6 @@
 
 				function eraseDown(event, width) {
 					previousGroups.push(picture.exportJSON());
-					// paths.push(new Path());
-					// curPath = paths[paths.length - 1];
 					curPath = new Path();
 					curPath.strokeColor = "#fbfbdb";
 					curPath.strokeWidth = width;
@@ -224,10 +205,9 @@
 						curPath.closed = true;
 						curPath.fill = true;
 						curPath.fillColor = "red";
-						curPath.fillColor.alpha = .000001; //This is the best workaround I've devised. -Nicholas
+						curPath.fillColor.alpha = .000001;
 					}
 					picture.addChild(curPath);
-					// undonePaths = [];
 					undoneGroups = [];
 					$('#redoButton').css("color", "rgba(0,0,0,0.5)");
 					$('#undoButton').css("color", "black");
@@ -291,7 +271,6 @@
 					curPath.lastSegment.opacity = 0;
 				}
 				var mask = new Group();
-				//TODO: Make Eraser tool
 				eraser = new Tool();
 				eraser.onMouseDown = function(event) {
 					previousGroups.push(picture.exportJSON());
@@ -319,13 +298,6 @@
 				nothing = new Tool();
 
 				undo = function(){
-					// if (paths.length == 0){
-					// 	return;
-					// }
-					// var p = paths.pop();
-					// undonePaths.push(p.exportJSON());
-					// picture.removeChildren(picture.children.length - 1);
-					// p.remove();
 
 					if (previousGroups.length == 0){
 						console.log("no previous groups");
@@ -345,14 +317,6 @@
 
 				}
 				redo = function(){
-					// if (undonePaths.length == 0) {
-					// 	return;
-					// }
-					// var p = undonePaths.pop();
-					// var np = new Path();
-					// np.importJSON(p);
-					// paths.push(np);
-					// picture.addChild(np);
 
 					if (undoneGroups.length == 0) {
 						return;
@@ -366,7 +330,6 @@
 				}
 				getPicJSON = function(){
 					var pic = project.exportJSON();
-					// var pic = picture.exportJSON();
 					return pic;
 				}
 				getPicGroupJSON = function() {
@@ -431,8 +394,8 @@
 			</div>
 		</div>
 
-		<div id="psheet">
-			<canvas id="myCanvas" width="750px" height="750px" style="width: 87vw; height: 73vh;"></canvas>
+		<div id="canvasSheet">
+			<canvas id="myCanvas" width="750px" height="750px"></canvas>
 			<div id="newPage">
 				<i class="bi bi-file-earmark-plus-fill"></i>
 			</div>
@@ -465,16 +428,15 @@
 		</div>
 
 		<div id="NPM" class="modal">
-			<!-- Modal content -->
-			<div class="modal-content" style="width: 90%; top: 25vh">
+			<div class="modal-content" style="width: 90%; top: 10vh">
 				<div class="container-fluid" style="border-style: solid; border-width: .3vh;">
 					<div class="row" style="font-size: 5vh; border-bottom-style: solid; border-width: .3vh;">
 						<div id="CloseNPM" class="col-2 modalClose" style="border-right-style: solid; border-right-width: .3vh; text-align: center; background-color: lightgray;"> X </div>
-						<div class="col-10" style="font-size: 2.7vh; text-align: center; padding-top: 1.8vh;">This will discard the current picture</div>
+						<div class="col-10" style="font-size: 2.7vh; text-align: center; padding-top: 1.8vh;">This will discard the current artwork</div>
 					</div>
 					<div class="row d-flex justify-content-center" onclick="clearImage(); newPageModal.style.display='none'" style="font-size: 5vh; background-color: #83c5be; border-style: solid; border-width: .3vh; border-color: #000000;">
 						<div class="col-12" style="text-align: center;">
-							Clear Image
+							Clear Canvas
 						</div>
 					</div>
 					</div>
@@ -483,7 +445,7 @@
 			</div>
 		</div>
 
-		<div class="row" style="position: absolute; top: 80vh; left: 0; height: 20vh; width: 100vw;">
+		<div class="row" style="position: absolute; top: 90vh; height: 10vh; width: 100vw;">
 			<div class="col-1"></div>
 			<div id="pencilDiv" class="col-2">
 				<img id="pencilIcon" src ="{% static 'museum/images/pencil.png' %}" alt="pencil" class="icon" style="width: 100%;"></img>

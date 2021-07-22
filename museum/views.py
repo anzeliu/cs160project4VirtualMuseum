@@ -31,6 +31,9 @@ def themed_room_v2(request):
 def upload_artwork(request):
     return render(request, 'museum/upload_artwork.html')
 
+def save_artwork(request):
+    return render(request, 'museum/save_artwork.html')
+
 def room(request, room_name):
     return render(request, 'draw/room.html', {
         'room_name': room_name

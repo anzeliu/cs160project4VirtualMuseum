@@ -47,10 +47,7 @@
 
 	    #descriptionText {
             color: #30251E;
-            margin: auto;
             text-align: center;
-            font-size: 10vw;
-            padding-top: 4vh;
 	        line-height: 100%;
 	        letter-spacing: 2px;
 	    }
@@ -58,17 +55,15 @@
         #doneButton {
             width: 100%;
             height: 100%;
-            margin: auto;
-            border: 26px solid #829FB7;
+            border-top: 8px solid #829FB7;
             box-sizing: border-box;
 	        background: #F5F6F6; 
         }
 
         #doneButtonText {
             color: #30251E;
-            margin: auto;
             text-align: center;
-            font-size: 5vw;
+            font-size: 3vh;
 	        letter-spacing: 2px;
 	    }
     </style>
@@ -90,25 +85,27 @@
                 </button>
             </div>
         </div>
-		<div class = "row" style="height: 29vh;">
-			<div id="description" onclick="location.href = 'main_hall';">
-				<div id = "doneButtonText" style = "text-align: left; border: 6px solid #829FB7;">
-                    <p style = "margin-left: 5px;">Add Description</p>
-                </div>
-                <div id = "descriptionText">
-                    
-				</div>
+		<div class = "row" style="height: 42vh;">
+			<div id="description">
+                <form>
+                    <div class = "row" id = "doneButtonText" style = "text-align: left; border-bottom: 8px solid #829FB7;">
+                        <label for="inputDescription">
+                            <h1 style = "margin-left: 5vw; margin-top: 1vh; font-size: 4vh">Add Description</h1>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <div id = "descriptionText">
+                            <textarea class="form-control" id = "inputDescription" placeholder="Description" rows="7" style = "font-size: 2vh"></textarea>
+                        </div>
+                        <div id = "doneButton" class = "align-items-center d-flex justify-content-center" style = "padding-bottom: 0vh">
+                            <button type="submit" class="btn btn-secondary" style = "height: 9.77vh; width: 95vw" onclick="location.href = 'themed_room_v1'">
+                                <p style = "font-size: 4vh; letter-spacing: 3px;">Done</p>
+                            </button>
+                        </div>
+                    </div>
+                </form>
 			</div>
 		</div>
-        <div class = "row" style="height: 1vh">
-        </div>
-        <div class = "row">
-            <div id = "doneButton" class = "align-items-center d-flex justify-content-center" style = "height: 12vh" onclick="location.href = 'themed_room_v1'">
-                <div id = "doneButtonText">
-                    Done
-                </div>
-            </div>    
-        </div>
 	</div>
 </body>
 <script>

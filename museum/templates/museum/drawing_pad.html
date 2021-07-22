@@ -64,9 +64,9 @@
 	}
 
 	.colorButton {
-        color: black;
+        color: white;
         height: 10vh;
-        text-shadow: -2px -2px 0 #FFF, 2px -2px 0 #FFF, -2px 2px 0 #FFF, 2px 2px 0 #FFF;
+        text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
         border-width: .3vh;
         border-style: solid;
         border-color: #30251E;
@@ -430,7 +430,7 @@
 					</div>
 				</div>
 				<a href = "/museum/gallery" class = "btn d-flex justify-content-center" style="font-size: 5vh; background-color: #83c5be; border-style: solid; border-width: .3vh; border-color: #000000;" role = "button">
-					<div class="row" onclick="saveToGallery(); saveDateToGallery()">
+					<div class="row" onclick="saveArtwork(); saveDate()">
 						<div class="col-12" style="text-align: center;">
 							Save To Themed Room
 						</div>
@@ -584,7 +584,7 @@
 				currToolButton();
 			}
 
-			function saveToGallery() {
+			function saveArtwork() {
 				var savedPics = JSON.parse(localStorage.getItem("savedPics"));
 				if (savedPics == null) {
 					savedPics = [];
@@ -594,7 +594,7 @@
 				localStorage.setItem("savedPics", JSON.stringify(savedPics));
 			}
 
-			function saveDateToGallery() {
+			function saveDate() {
 				var savedDates = JSON.parse(localStorage.getItem("savedDates"));
 				if (savedDates == null) {
 					savedDates = [];

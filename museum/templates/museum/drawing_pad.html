@@ -22,16 +22,16 @@
 	}
 
 	.padButton {
-    background-color: #AEBEA1;
-    color: black;
-    height: 10vh;
-    border-width: .vh;
-    border-style: solid;
-    border-color: #907f9f;
-    font-size: 5vh;
-    font-weight: 900;
-    text-align: center;
-    line-height: 16.6vw;
+        background-color: #AEBEA1;
+        color: black;
+        height: 10vh;
+        border-width: .vh;
+        border-style: solid;
+        border-color: #907f9f;
+        font-size: 5vh;
+        font-weight: 900;
+        text-align: center;
+        line-height: 16.6vw;
 	}
 
 	.padIcon {
@@ -40,57 +40,57 @@
 
 	#canvasSheet {
         position: absolute;
-        top: 10vh;
-        left: 4vw;
-        height: 80vh;
-        width: 92vw;
-        background-color: #fdfcdc;
+        top: 11vh;
+        left: 1vw;
+        height: 78vh;
+        width: 98vw;
+        background-color: #ffffff;
 	}
 
 	.icon {
-    position: relative;
-    padding-top: 5vh;
+        position: relative;
+        padding-top: 5vh;
 	}
 
 	#undoButton {
-    color: rgba(0, 0, 0, .5);
+        color: rgba(0, 0, 0, .5);
 	}
 
 	#redoButton {
-    color: rgba(0, 0, 0, .5);
+        color: rgba(0, 0, 0, .5);
 	}
 
 	.colorButton {
-    color: black;
-    height: 10vh;
-    text-shadow: -2px -2px 0 #FFF, 2px -2px 0 #FFF, -2px 2px 0 #FFF, 2px 2px 0 #FFF;
-    border-width: .3vh;
-    border-style: solid;
-    border-color: #006d77;
-    text-align: center;
-    font-size: 5.5vw;
-    line-height: 16.6vw;
+        color: black;
+        height: 10vh;
+        text-shadow: -2px -2px 0 #FFF, 2px -2px 0 #FFF, -2px 2px 0 #FFF, 2px 2px 0 #FFF;
+        border-width: .3vh;
+        border-style: solid;
+        border-color: #006d77;
+        text-align: center;
+        font-size: 5vw;
+        line-height: 16.6vw;
 	}
 
 	.modal {
-    display: none;
-    /* Hidden by default */
-    position: fixed;
-    /* Stay in place */
-    z-index: 1;
-    /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%;
-    /* Full width */
-    height: 100%;
-    /* Full height */
-    overflow: auto;
-    /* Enable scroll if needed */
-    background-color: fbfbdb;
-    /* Fallback color */
-    background-color: rgba(251, 251, 219, 0.4);
-    /* Black w/ opacity */
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: fbfbdb;
+        /* Fallback color */
+        background-color: rgba(251, 251, 219, 0.4);
+        /* Black w/ opacity */
 	}
 
 
@@ -113,7 +113,7 @@
 
 <script type="text/javascript" canvas="canvas">
 	console.log("script 1 runs");
-	var pencil, marker, crayon, eraser, fill, nothing;
+	var pencil, brush, crayon, eraser, fill, nothing;
 	function undo() {};
 	function redo() {};
 	function getPicJSON() {};
@@ -132,7 +132,7 @@
 		
 		colorFromPicker = sessionStorage.getItem("color");
 		if (colorFromPicker == null){
-			colorFromPicker = "#FF0000";
+			colorFromPicker = "#51624f";
 		}
 		$(".strokeColor").css("background-color", colorFromPicker);
 		function init(custom){
@@ -245,14 +245,14 @@
 					
 				}
 
-				marker = new Tool();
-				marker.onMouseDown = function(event) {
+				brush = new Tool();
+				brush.onMouseDown = function(event) {
 					drawDown(event, 25);
 				}
-				marker.onMouseDrag = function(event) {
+				brush.onMouseDrag = function(event) {
 					curPath.add(event.point);
 				}
-				marker.onMouseUp = function(event) {
+				brush.onMouseUp = function(event) {
 					drawUp(event, 90);
 				}
 
@@ -355,7 +355,7 @@
 			case "pencil":
 				pressPButton();
 				break;
-			case "marker":
+			case "brush":
 				pressMButton();
 				break;
 			case "crayon":
@@ -375,8 +375,8 @@
 </script>
 </head>
 <body style="overflow: hidden;">
-	<div class="container-fluid" style="height: 100vh">
-		<div class="row" style="height: 16vw">
+	<div class="container-fluid" style="height: 100vh; background-color: #e6d5aa">
+		<div class="row" style="height: 10vh">
 			<div id = "homeButton" class="col-2 padButton" onclick="goHome()" onmouseover = "overPadButton('homeButton')" onmouseout = "outPadButton('homeButton')">
 				<i class="bi bi-house-door-fill"></i>
 			</div>
@@ -399,12 +399,11 @@
 			<div id="newPage">
 				<i class="bi bi-file-earmark-plus-fill"></i>
 			</div>
-			<!-- <a id = "newPage" class = 'btn btn-secondary d-flex justify-content-center' role = 'button' aria-pressed = 'true'>
-				<!-- <i class="bi bi-stars"></i> -->
-				<i class="bi bi-file-earmark-plus-fill"></i>
-			</a> -->
+			
 		</div>
+
 		
+
 		<div id="myModal" class="modal">
 			<!-- Modal content -->
 			<div class="modal-content" style="width: 90%;">
@@ -427,6 +426,15 @@
 			</div>
 		</div>
 
+        <div class = "row">
+            <button id = "">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                    <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"/>
+                    <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                </svg>
+            </button>
+        </div>
+
 		<div id="NPM" class="modal">
 			<div class="modal-content" style="width: 90%; top: 10vh">
 				<div class="container-fluid" style="border-style: solid; border-width: .3vh;">
@@ -445,40 +453,34 @@
 			</div>
 		</div>
 
-		<div class="row" style="position: absolute; top: 90vh; height: 10vh; width: 100vw;">
+
+		<div class="row" style="position: absolute; top: 85vh; left: 0; height: 20vh; width: 100vw;">
 			<div class="col-1"></div>
 			<div id="pencilDiv" class="col-2">
 				<img id="pencilIcon" src ="{% static 'museum/images/pencil.png' %}" alt="pencil" class="icon" style="width: 100%;"></img>
-				<!-- <div id="pencilIcon" class = "icon" style="background-image: url(./../static/museum/images/pencil.png); background-size: 100% 100%;">Pencil</div> -->
 			</div>
-			<div id="markerDiv" class="col-2">
-				<img id="markerIcon" src ="{% static 'museum/images/brush.png' %}" alt="marker" class="icon" style=" width: 100%;"></img>
-				<!-- <div id="markerIcon" class = "icon">Marker</div> -->
+			<div id="brushDiv" class="col-2">
+				<img id="brushIcon" src ="{% static 'museum/images/brush.png' %}" alt="brush" class="icon" style=" width: 105%;"></img>
 			</div>
 			<div id="crayonDiv" class="col-2">
-				<img id="crayonIcon" src ="{% static 'museum/images/crayon.png' %}" alt="crayon" class="icon" style="width: 100%;"></img>
-				<!-- <div id="crayonIcon" class = "icon">crayon</div> -->
+				<img id="crayonIcon" src ="{% static 'museum/images/crayon.png' %}" alt="crayon" class="icon" style="top: 0.5vh; right: 1vw; width: 120%;"></img>
 			</div>
 			<div id="eraserDiv" class="col-2">
-				<img id="eraserIcon" src ="{% static 'museum/images/eraser.png' %}" alt="eraser" class="icon" style="width: 100%;"></img>
-				<!-- <div id="eraserIcon" class = "icon">Eraser</div> -->
+				<img id="eraserIcon" src ="{% static 'museum/images/eraser.png' %}" alt="eraser" class="icon" style="top: 1vh; left: 1vh; width: 100%;"></img>
 			</div>
 			<div id="fillDiv" class="col-3">
-				<img id="fillIcon" src ="{% static 'museum/images/bucket.png' %}" alt="fill" class="icon" style="width: 70%;"></img>
-				<!-- <div id="fillIcon" class = "icon">Fill</div> -->
+				<img id="fillIcon" src ="{% static 'museum/images/bucket.png' %}" alt="fill" class="icon" style="left: 1vh; width: 65%"></img>
 			</div>
-			<!-- <div class="col-1"></div> -->
 		</div>
 	</div>
-
 	<script type="text/javascript">
 			var currToolButton = pressPButton;
 			function pressMButton() {
-				marker.activate();
+				brush.activate();
 				$(".icon").css("padding-top", "5vh");
-				$("#markerIcon").css("padding-top", "0vh");
+				$("#brushIcon").css("padding-top", "0vh");
 				currToolButton = pressMButton;
-				sessionStorage.setItem('currentTool', "marker");
+				sessionStorage.setItem('currentTool', "brush");
 			}
 			function pressHButton() {
 				crayon.activate();
@@ -509,7 +511,7 @@
 				sessionStorage.setItem('currentTool', "pencil");
 			}
 			$('body').on("click", "#pencilDiv", pressPButton);
-			$('body').on("click", "#markerDiv", pressMButton);
+			$('body').on("click", "#brushDiv", pressMButton);
 			$('body').on("click", "#crayonDiv", pressHButton);
 			$('body').on("click", "#eraserDiv", pressEButton);
 			$('body').on("click", "#fillDiv", pressFButton);
@@ -523,8 +525,6 @@
 				with(paper) {
 					project.activeLayer.removeChildren();
 					project.importJSON(picToSave);
-					// var g = new Group();
-					// g.importJSON(picToSave);
 				}
 				$("#saveCanvas").css("width", "100%");
 				$("#saveCanvas").css("height", "100%");
@@ -584,7 +584,6 @@
 				savedPics.push(picToSave);
 				console.log(savedPics);
 				localStorage.setItem("savedPics", JSON.stringify(savedPics));
-				// location.href = 'gallery'
 			}
 
 			function saveDateToGallery() {
@@ -627,7 +626,7 @@
 				}
 			}
 			function outPadButton(button) {
-				document.getElementById(button).style.backgroundColor = "#AEBEA1";
+				document.getElementById(button).style.backgroundColor = "#E29578";
 			}
 	</script>
 </body>

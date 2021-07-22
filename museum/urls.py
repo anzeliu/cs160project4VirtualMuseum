@@ -12,5 +12,6 @@ urlpatterns = [
     path('color_picker', views.color_picker, name='color_picker'),
     path('chat_room', views.chat_room, name='chat_room'),
     path('museum_display', views.museum_display, name='museum_display'),
+    path('save_artwork', views.save_artwork, name='save_artwork'),
     path('<str:room_name>/', views.room, name='room')
 ]

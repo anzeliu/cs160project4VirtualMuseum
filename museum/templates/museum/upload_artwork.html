@@ -11,13 +11,190 @@
     <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
 
     <style type="text/css">
+        #pageName {
+            color: #30251E;
+            margin: auto;
+            text-align: center;
+            font-size: 8vw;
+	        line-height: 100%;
+	        letter-spacing: 2px;
+        }
+
+        #uploadArea {
+            width: 100%;
+            height: 100%;
+            margin: auto;
+            border: 26px solid #829FB7;
+            box-sizing: border-box;
+	        background: #F5F6F6; 
+        }
+
+        #uploadArrow {
+            width: 40%;
+            height: 50%;
+            box-sizing: border-box;
+	        background: #829FB7; 
+        }
+
+        #description {
+            width: 100%;
+            height: 100%;
+            margin: auto;
+            border: 26px solid #829FB7;
+            box-sizing: border-box;
+	        background: #F5F6F6; 
+	    }
+
+	    #descriptionText {
+            color: #30251E;
+            margin: auto;
+            text-align: center;
+            font-size: 10vw;
+            padding-top: 4vh;
+	        line-height: 100%;
+	        letter-spacing: 2px;
+	    }
+
+        #doneButton {
+            width: 100%;
+            height: 100%;
+            margin: auto;
+            border: 26px solid #829FB7;
+            box-sizing: border-box;
+	        background: #F5F6F6; 
+        }
+
+        #doneButtonText {
+            color: #30251E;
+            margin: auto;
+            text-align: center;
+            font-size: 5vw;
+	        letter-spacing: 2px;
+	    }
     </style>
 
 </head>
 <body>
-    
+    <div class="container-fluid" style="background-color: #829FB7">
+        <div class = "row" style="height: 10vh">
+            <div id = "pageName">
+                Upload Artwork
+            </div>
+        </div>
+        <div class = "row" style="height: 2vh">
+        </div>
+		<div class = "row" style="height: 40vh">
+            <div id = "uploadArea" class = "align-items-center d-flex justify-content-center">
+                <div id = "uploadArrow" class = "align-items-center d-flex justify-content-center">
+                    <a style = "color: #F5F6F6; background-color: #829FB7" href="new_interaction" class = 'btn d-flex justify-content-center' role = 'button' aria-pressed = 'true'>
+					<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="currentColor" class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+				    </a>
+                </div>
+            </div>
+        </div>
+        <div class = "row" style="height: 3vh">
+        </div>
+		<div class = "row" style="height: 29vh;">
+			<div id="description" onclick="location.href = 'main_hall';">
+				<div id = "doneButtonText" style = "text-align: left; border: 6px solid #829FB7;">
+                    <p style = "margin-left: 5px;">Add Description</p>
+                </div>
+                <div id = "descriptionText">
+                    
+				</div>
+			</div>
+		</div>
+        <div class = "row" style="height: 4vh">
+        </div>
+        <div class = "row">
+            <div id = "doneButton" class = "align-items-center d-flex justify-content-center" style = "height: 12vh" onclick="location.href = 'themed_room_v1'">
+                <div id = "doneButtonText">
+                    Done
+                </div>
+            </div>    
+        </div>
+	</div>
 </body>
 <script>
+    
+if (window.File && window.FileReader && window.FormData) {
+	var $inputField = $('#file');
 
+	$inputField.on('change', function (e) {
+		var file = e.target.files[0];
+
+		if (file) {
+			if (/^image\//i.test(file.type)) {
+				readFile(file);
+			} else {
+				alert('Not a valid image!');
+			}
+		}
+	});
+} else {
+	alert("File upload is not supported!");
+}
+
+function readFile(file) {
+	var reader = new FileReader();
+
+	reader.onloadend = function () {
+		processFile(reader.result, file.type);
+	}
+
+	reader.onerror = function () {
+		alert('There was an error reading the file!');
+	}
+
+	reader.readAsDataURL(file);
+}
+function processFile(dataURL, fileType) {
+	var maxWidth = 800;
+	var maxHeight = 800;
+
+	var image = new Image();
+	image.src = dataURL;
+
+	image.onload = function () {
+		var width = image.width;
+		var height = image.height;
+		var shouldResize = (width > maxWidth) || (height > maxHeight);
+
+		if (!shouldResize) {
+			sendFile(dataURL);
+			return;
+		}
+
+		var newWidth;
+		var newHeight;
+
+		if (width > height) {
+			newHeight = height * (maxWidth / width);
+			newWidth = maxWidth;
+		} else {
+			newWidth = width * (maxHeight / height);
+			newHeight = maxHeight;
+		}
+
+		var canvas = document.createElement('canvas');
+
+		canvas.width = newWidth;
+		canvas.height = newHeight;
+
+		var context = canvas.getContext('2d');
+
+		context.drawImage(this, 0, 0, newWidth, newHeight);
+
+		dataURL = canvas.toDataURL(fileType);
+
+		sendFile(dataURL);
+	};
+
+	image.onerror = function () {
+		alert('There was an error processing your file!');
+	};
+}
 </script>
 </html>

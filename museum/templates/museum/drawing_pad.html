@@ -6,9 +6,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Drawing Pad</title>
 
-    <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
-    <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'museum/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script type="text/javascript" src="{% static 'museum/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'museum/vendor/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'museum/vendor/paper/paper-full.min.js' %}"></script>
 
 <style type="text/css">
 
@@ -27,7 +30,7 @@
         height: 10vh;
         border-width: .vh;
         border-style: solid;
-        border-color: #907f9f;
+        border-color: #30251E;
         font-size: 5vh;
         font-weight: 900;
         text-align: center;
@@ -42,7 +45,7 @@
         position: absolute;
         top: 11vh;
         left: 1vw;
-        height: 78vh;
+        height: 75vh;
         width: 98vw;
         background-color: #ffffff;
 	}
@@ -66,12 +69,31 @@
         text-shadow: -2px -2px 0 #FFF, 2px -2px 0 #FFF, -2px 2px 0 #FFF, 2px 2px 0 #FFF;
         border-width: .3vh;
         border-style: solid;
-        border-color: #006d77;
+        border-color: #30251E;
         text-align: center;
         font-size: 5vw;
         line-height: 16.6vw;
 	}
 
+
+    #newPageButton {
+        position: relative;
+        background-color: #fdfcdc;
+        border-color: #fdfcdc;
+        top: -74.7vh;
+        left: 79.55vw;
+        /* left: 0; */
+        height: 7vh;
+        width: 9vh;
+        padding-top: 0;
+        margin-top: 0;
+        margin-right: 0;
+        border-width: .5vh;
+        border-style: groove;
+        text-align: center;
+        font-size: 6vh;
+        line-height: 4vh;
+    }
 	.modal {
         display: none;
         /* Hidden by default */
@@ -396,10 +418,9 @@
 
 		<div id="canvasSheet">
 			<canvas id="myCanvas" width="750px" height="750px"></canvas>
-			<div id="newPage">
+			<div id="newPageButton">
 				<i class="bi bi-file-earmark-plus-fill"></i>
-			</div>
-			
+			</div>	
 		</div>
 
 		
@@ -478,35 +499,35 @@
 			function pressMButton() {
 				brush.activate();
 				$(".icon").css("padding-top", "5vh");
-				$("#brushIcon").css("padding-top", "0vh");
+				$("#brushIcon").css("padding-top", "1vh");
 				currToolButton = pressMButton;
 				sessionStorage.setItem('currentTool', "brush");
 			}
 			function pressHButton() {
 				crayon.activate();
 				$(".icon").css("padding-top", "5vh");
-				$("#crayonIcon").css("padding-top", "0vh");
+				$("#crayonIcon").css("padding-top", "1vh");
 				currToolButton = pressHButton;
 				sessionStorage.setItem('currentTool', "crayon");
 			}
 			function pressEButton() {
 				eraser.activate();
 				$(".icon").css("padding-top", "5vh");
-				$("#eraserIcon").css("padding-top", "0vh");
+				$("#eraserIcon").css("padding-top", "1vh");
 				currToolButton = pressEButton;
 				sessionStorage.setItem('currentTool', "eraser");
 			}
 			function pressFButton() {
 				fill.activate();
 				$(".icon").css("padding-top", "5vh");
-				$("#fillIcon").css("padding-top", "0vh");
+				$("#fillIcon").css("padding-top", "1vh");
 				currToolButton = pressFButton;
 				sessionStorage.setItem('currentTool', "fill");
 			}
 			function pressPButton() {
 				pencil.activate();
 				$(".icon").css("padding-top", "5vh");
-				$("#pencilIcon").css("padding-top", "0vh");
+				$("#pencilIcon").css("padding-top", "1vh");
 				currToolButton = pressPButton;
 				sessionStorage.setItem('currentTool', "pencil");
 			}
@@ -598,7 +619,7 @@
 				localStorage.setItem("savedDates", JSON.stringify(savedDates));
 			}
 
-			var newPageBtn = document.getElementById("newPage");
+			var newPageBtn = document.getElementById("newPageButton");
 			var newPageModal = document.getElementById("NPM");
 			var newPageModalClose = document.getElementById("CloseNPM");
 			newPageBtn.onclick = function(){

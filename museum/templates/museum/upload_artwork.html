@@ -20,7 +20,7 @@
 	        letter-spacing: 2px;
         }
 
-        #uploadArea {
+        .uploadArea {
             width: 100%;
             height: 100%;
             margin: auto;
@@ -76,25 +76,19 @@
 </head>
 <body>
     <div class="container-fluid" style="background-color: #829FB7">
-        <div class = "row" style="height: 10vh">
+        <div class = "row" style="height: 8vh">
             <div id = "pageName">
                 Upload Artwork
             </div>
         </div>
-        <div class = "row" style="height: 2vh">
-        </div>
-		<div class = "row" style="height: 40vh">
-            <div id = "uploadArea" class = "align-items-center d-flex justify-content-center">
-                <div id = "uploadArrow" class = "align-items-center d-flex justify-content-center">
-                    <a style = "color: #F5F6F6; background-color: #829FB7" href="new_interaction" class = 'btn d-flex justify-content-center' role = 'button' aria-pressed = 'true'>
-					<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="currentColor" class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
+		<div class = "row" style="height: 50vh">
+            <div id = "img-result" class = "no-image uploadArea align-items-center d-flex justify-content-center">
+                <button id = "upload" class = "btn btn-secondary" style = "color: #F5F6F6; background-color: #829FB7">
+					<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" fill="currentColor" class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"/>
                     </svg>
-				    </a>
-                </div>
+                </button>
             </div>
-        </div>
-        <div class = "row" style="height: 3vh">
         </div>
 		<div class = "row" style="height: 29vh;">
 			<div id="description" onclick="location.href = 'main_hall';">
@@ -106,7 +100,7 @@
 				</div>
 			</div>
 		</div>
-        <div class = "row" style="height: 4vh">
+        <div class = "row" style="height: 1vh">
         </div>
         <div class = "row">
             <div id = "doneButton" class = "align-items-center d-flex justify-content-center" style = "height: 12vh" onclick="location.href = 'themed_room_v1'">
@@ -118,83 +112,37 @@
 	</div>
 </body>
 <script>
-    
-if (window.File && window.FileReader && window.FormData) {
-	var $inputField = $('#file');
+    (function () {
+    var uploader = document.createElement('input'),
+    image = document.getElementById('img-result');
 
-	$inputField.on('change', function (e) {
-		var file = e.target.files[0];
+    uploader.type = 'file';
+    uploader.accept = 'image/*';
 
-		if (file) {
-			if (/^image\//i.test(file.type)) {
-				readFile(file);
-			} else {
-				alert('Not a valid image!');
-			}
-		}
-	});
-} else {
-	alert("File upload is not supported!");
-}
+    image.onclick = function() {
+    uploader.click();
+    }
 
-function readFile(file) {
-	var reader = new FileReader();
-
-	reader.onloadend = function () {
-		processFile(reader.result, file.type);
-	}
-
-	reader.onerror = function () {
-		alert('There was an error reading the file!');
-	}
-
-	reader.readAsDataURL(file);
-}
-function processFile(dataURL, fileType) {
-	var maxWidth = 800;
-	var maxHeight = 800;
-
-	var image = new Image();
-	image.src = dataURL;
-
-	image.onload = function () {
-		var width = image.width;
-		var height = image.height;
-		var shouldResize = (width > maxWidth) || (height > maxHeight);
-
-		if (!shouldResize) {
-			sendFile(dataURL);
-			return;
-		}
-
-		var newWidth;
-		var newHeight;
-
-		if (width > height) {
-			newHeight = height * (maxWidth / width);
-			newWidth = maxWidth;
-		} else {
-			newWidth = width * (maxHeight / height);
-			newHeight = maxHeight;
-		}
-
-		var canvas = document.createElement('canvas');
-
-		canvas.width = newWidth;
-		canvas.height = newHeight;
-
-		var context = canvas.getContext('2d');
-
-		context.drawImage(this, 0, 0, newWidth, newHeight);
-
-		dataURL = canvas.toDataURL(fileType);
-
-		sendFile(dataURL);
-	};
-
-	image.onerror = function () {
-		alert('There was an error processing your file!');
-	};
-}
+    uploader.onchange = function() {
+    var reader = new FileReader();
+    reader.onload = function(evt) {
+        image.classList.remove('no-image');
+        image.style.backgroundImage = 'url(' + evt.target.result + ')';
+        image.style.backgroundSize = "contain";
+        image.style.backgroundRepeat = "no-repeat";
+        image.style.backgroundPositionX = "center";
+        image.style.backgroundPositionY = "center";
+        var request = {
+            itemtype: 'test 1',
+            brand: 'test 2',
+            images: [{
+            data: evt.target.result
+        }]
+      };
+    }
+    reader.readAsDataURL(uploader.files[0]);
+    document.getElementById('upload').style.display = "none";
+    }
+    })();
 </script>
 </html>

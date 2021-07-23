@@ -27,14 +27,14 @@
             margin: auto;
             border: 26px solid #829FB7;
             box-sizing: border-box;
-	        background: #ffffff; 
+	        background: #ffffff;
         }
 
         #uploadArrow {
             width: 40%;
             height: 50%;
             box-sizing: border-box;
-	        background: #829FB7; 
+	        background: #829FB7;
         }
 
         #description {
@@ -43,7 +43,7 @@
             margin: auto;
             border: 26px solid #829FB7;
             box-sizing: border-box;
-	        background: #F5F6F6; 
+	        background: #F5F6F6;
 	    }
 
 	    #descriptionText {
@@ -58,7 +58,7 @@
             height: 100%;
             border-top: 8px solid #829FB7;
             box-sizing: border-box;
-	        background: #F5F6F6; 
+	        background: #F5F6F6;
         }
 
         #doneButtonText {
@@ -127,16 +127,16 @@
         imgDisplay.style.backgroundRepeat = "no-repeat";
         imgDisplay.style.backgroundPositionX = "center";
         imgDisplay.style.backgroundPositionY = "center";
-    }  
+    }
     artwork += '\"'
-    
+
 
     var socket = new WebSocket(
         'ws://' + window.location.host + '/ws/draw');
 
     // Add code here if you want to pass any information.
     function shareToThemedRoom() {
-        socket.send("{\"artwork\" : " + artwork + "}");
+        socket.send("{\"artwork\" : \"" + artwork + "\"}");
     }
 
 

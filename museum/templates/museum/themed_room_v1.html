@@ -210,10 +210,6 @@
     <div class="container" id="gallery">
         <div class="row-fluid" id = "userArtwork">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                </ol>
                 <div class="carousel-inner">
 
                 </div>
@@ -242,18 +238,6 @@
         //localStorage.clear();
         //sessionStorage.clear();
         //localStorage.setItem("savedPics", JSON.stringify([]));
-    var savedPics;
-    var id;
-    var artwork;
-    var myCardDisplay = document.getElementById('myCard');
-    window.onload = function() {
-		savedPics = JSON.parse(localStorage.getItem("savedPics"));
-        if (savedPics != null) {
-            id = savedPics.length - 1;
-            artwork = savedPics[savedPics.length - 1];
-        }
-    }
-
     var users = {};
     var socket = new WebSocket(
         'ws://' + window.location.host + '/ws/draw');
@@ -272,10 +256,21 @@
             addArtworkToCards(otherArtwork);
         }
     }
+    localStorage.setItem("usersArtwork", JSON.stringify(users));
 
+    window.onload = function () {
+        // save all the artworks shared to themed room at every loading of the web page
+        var usersArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"))
+        var artwork;
+        for (var i = usersArtwork.length - 1; i >= 0; i--) {
+            addArtworkToCards(usersArtwork[i]);
+        }
+    }
+
+    // add artwork from each user to the card area under user creations
     function addArtworkToCards(otherArtwork) {
         var card = document.createElement('div');
-        card.setAttribute('class', "carousel-item active align-items-center d-flex justify-content-center");
+        card.setAttribute('class', "carousel-item align-items-center d-flex justify-content-center");
         var image = document.createElement('img');
         image.setAttribute('id', 'myCard');
         image.setAttribute('class', 'd-block');
@@ -283,6 +278,21 @@
         image.src = otherArtwork;
         card.append(image);
         $(".carousel-inner").append(card);
+    }
+
+    function saveUsersArtwork() {
+        var savedUsersArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"));
+        if (savedUsersArtwork == null) {
+            savedUsersArtwork = [];
+        }
+        for (artwork in users) {
+            savedUsersArtwork.push(artwork);
+        }
+        localStorage.setItem("savedUsersArtwork", JSON.stringify(savedUsersArtwork));
+    }
+
+    window.onunload = function() {
+        saveUsersArtwork();
     }
 
     socket.onclose = function(e) {

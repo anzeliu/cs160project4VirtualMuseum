@@ -215,18 +215,9 @@
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
                 </ol>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="..." class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="..." class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="..." class="d-block w-100" alt="...">
-                    </div>
+                    
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -253,57 +244,46 @@
         //localStorage.clear();
         //sessionStorage.clear();
         //localStorage.setItem("savedPics", JSON.stringify([]));
+    var savedPics;
+    var id;
+    var artwork;
+    var myCardDisplay = document.getElementById('myCard');
     window.onload = function() {
-		var savedPics = JSON.parse(localStorage.getItem("savedPics"));
-        var id = savedPics.length - 1;
-        var artwork = savedPics[savedPics.length - 1];
-        var imgDisplay = document.getElementById('userArtwork');
-        imgDisplay.style.backgroundImage = 'url(' + artwork + ')';
-        imgDisplay.style.backgroundSize = "contain";
-        imgDisplay.style.backgroundRepeat = "no-repeat";
-        imgDisplay.style.backgroundPositionX = "center";
-        imgDisplay.style.backgroundPositionY = "center";
-    }  
-    var users = {};
-
-    
-
-    // getting the URL (you may want to use for Exercise 3)
-    var url = window.location.href;
-    var parameterValue;
-    function parseURL(url) {
-        var query = url.split('?');
-        var param = query[1].split('size=');
-        return param[1];
+		savedPics = JSON.parse(localStorage.getItem("savedPics"));
+        if (savedPics != null) {
+            id = savedPics.length - 1;
+            artwork = savedPics[savedPics.length - 1];
+        }
     }
-    parameterValue = parseURL(url);
 
+    var users = {};
     var socket = new WebSocket(
         'ws://' + window.location.host + '/ws/draw');
 
-        
-    tool.onMouseMove = function(event) { //http://paperjs.org/reference/tool/ path examples
-        if (parameterValue == "small") {
-            // path.add(event.point);
-            // You may need to add code here if you want to pass any other information.
-            socket.send("{\"x\" : " + event.point.x + ", \"y\" : " + event.point.y + ", \"uid\" : " + uid + ", \"color\" : " + color + "}" );
+    // Add code here if you want to pass any other information.
+    var received;
+    socket.onmessage = function(receivedMessage) {
+        received = JSON.parse(receivedMessage.data);
+        console.log("Received: " + JSON.stringify(received));
+        // Display all users' artwork
+        var otherArtwork = received["artwork"];
+        if (otherArtwork) {
+            if ((otherArtwork in users) == false) {
+                users[otherArtwork] = otherArtwork;
+            }
+            addArtworkToCards(otherArtwork);
         }
     }
 
-    socket.onmessage = function(receivedMessage) {
-        var received = JSON.parse(receivedMessage.data);
-            console.log("Received: " + JSON.stringify(received));
-            // You will probably want to add some code here to draw more lines.
-            var point = new paper.Point(received["x"], received["y"]);
-            var otherUID = received["uid"];
-            var otherColor = received["color"]
-        if (parameterValue == "large" || (parameterValue == "small" && otherUID == uid)) {
-            if ((otherUID in users) == false) {
-                users[otherUID] = new paper.Path();
-                users[otherUID].strokeColor = otherColor;
-            }
-            users[otherUID].add(point);
-        }
+    function addArtworkToCards(otherArtwork) {
+        var card = document.createElement('div');
+        card.setAttribute('class', "carousel-item active align-items-center d-flex justify-content-center");
+        var image = document.createElement('img');
+        image.setAttribute('id', 'myCard');
+        image.setAttribute('class', 'd-block'); 
+        image.setAttribute('height', '215px'); 
+        image.src = otherArtwork;
+        card.append(card);
     }
 
     socket.onclose = function(e) {

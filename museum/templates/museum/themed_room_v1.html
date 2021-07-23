@@ -137,6 +137,10 @@
         box-shadow: 1px 1px 6px 1px #cccccc;
       }
 
+      .col-xs-1 {
+        display: inline-block;
+      }
+
       #featured {
         margin-top: 60px;
       }
@@ -208,20 +212,7 @@
         </div>
     </div>
     <div class="container" id="gallery">
-        <div class="row-fluid" id = "userArtwork">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
+        <div class="row-fluid" id="userArtwork">
         </div>
         <div class="row justify-content-center" id="buttons">
             <div class="col-xs-6" id="button-1">
@@ -270,14 +261,13 @@
     // add artwork from each user to the card area under user creations
     function addArtworkToCards(otherArtwork) {
         var card = document.createElement('div');
-        card.setAttribute('class', "carousel-item align-items-center d-flex justify-content-center");
+        card.setAttribute('class', "col-xs-1");
         var image = document.createElement('img');
         image.setAttribute('id', 'myCard');
-        image.setAttribute('class', 'd-block');
         image.setAttribute('height', '215px');
         image.src = otherArtwork;
         card.append(image);
-        $(".carousel-inner").append(card);
+        $("#userArtwork").append(card);
     }
 
     function saveUsersArtwork() {

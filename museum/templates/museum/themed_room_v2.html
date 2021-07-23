@@ -143,7 +143,7 @@
       <div class="col-xs-12"><h2> Display Preview </h2></div>
       <div id="display">
         <!-- Artwork image source: Smithsonian American Art Museum - https://americanart.si.edu/artwork/valley-farms-6817 -->
-        <div id="original"><img src="/static/museum/images/valley_farms.jpeg" width=120px></div>
+        <div><img id="original" src="/static/museum/images/valley_farms.jpeg" width=120px></div>
       </div>
     </div>
     <div class="row justify-content-center" id="buttons">
@@ -154,6 +154,21 @@
 
 <script>
 
+    var socket = new WebSocket(
+        'ws://' + window.location.host + '/ws/draw');
+
+    // Add code here if you want to pass any information.
+    function shareToLargeDisplay() {
+        var display = $("img");
+        socket.send("{\"display\" : \"" + display + "\"}");
+        console.log(display);
+    }
+
+
+    socket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
   $("#icon-1").click(function(){
       location.href = "themed_room_v1";
   });
@@ -161,6 +176,12 @@
   $("#icon-2").click(function(){
       location.href = "chat_room";
   });
+
+  $("#button-1").click(function(){
+      shareToLargeDisplay();
+  });
+
+
 
 </script>
 </html>

@@ -20,7 +20,7 @@
 	        letter-spacing: 2px;
         }
 
-        .uploadArea {
+        .saveArea {
             width: 100%;
             height: 100%;
             margin: auto;
@@ -66,137 +66,57 @@
             font-size: 3vh;
 	        letter-spacing: 2px;
 	    }
+
+        .displayScreen {
+            /* background-color: #fbfbdb; */
+            border-bottom-style: dashed;
+            border-bottom-width: .3vh;
+}
     </style>
 
     <script>
-        window.onload = function() {
-		// localStorage.clear();
-		// sessionStorage.clear();
-		// localStorage.setItem("savedPics", JSON.stringify([]));
-		// localStorage.setItem("savedDates", JSON.stringify([]));
+        //localStorage.clear();
+        //sessionStorage.clear();
+        //localStorage.setItem("savedPics", JSON.stringify([]));
+    window.onload = function() {
 		var savedPics = JSON.parse(localStorage.getItem("savedPics"));
-		var savedDates = JSON.parse(localStorage.getItem("savedDates"));
-		var postItCanvases = [];
-		var postItScopes = [];
-		for (var i = savedPics.length - 1; i >= 0; i--){
-			var name = ""
-			try{
-				name = savedDates[i];
-			} catch {
-				name = "item " + i;
-			}
-			createPostIt(i, savedPics[i], name);
-		}
+		displayArtwork(savedPics.length - 1, savedPics[savedPics.length - 1]);
 
-		function createPostIt(id, picture, timeText) {
-			var parent = document.getElementById("postIts");
+		function displayArtwork(id, artwork) {
+			var parent = document.getElementById("imgDisplay");
 			var newDiv = document.createElement("div");
 			newDiv.setAttribute("class", 'col-5');
-			newDiv.setAttribute("style", "height: 25vh; margin: 30px");
-			var btn = document.createElement("button");
-			btn.setAttribute("class", 'picbtn');
-			btn.setAttribute("style", "transform: rotate(" + (Math.random() - .5) * 7 + "deg)");
+			newDiv.setAttribute("style", "height: 20vh;");
 			
 			//Image setup
-			var img = document.createElement("canvas");
-			img.setAttribute("id", id);
-			img.setAttribute("width", "1000px");
-			img.setAttribute("height", "1000px");
-			img.setAttribute("class", "postItPic");
+			var art = document.createElement("canvas");
+			art.setAttribute("id", id);
+			art.setAttribute("width", "1000px");
+			art.setAttribute("height", "1000px");
+			art.setAttribute("class", "displayScreen");
 			var s = new paper.PaperScope();
-			s.setup(img);
+			s.setup(art);
 			s.activate();
 			with(paper){
 				project.activeLayer.removeChildren();
-				project.importJSON(picture);
+				project.importJSON(artwork);
 			}
-			
-			postItScopes.push(s);
-			postItCanvases.push(img);
-
-			btn.appendChild(img);
-
-			// Time Setup
-			var time = document.createElement("div");
-			time.setAttribute("class", "postItTime");
-			time.appendChild(document.createTextNode(timeText));
-			btn.appendChild(time);
-
-			newDiv.appendChild(btn);
-
-			//Modal
-			var mod = document.createElement("div");
-			mod.setAttribute("class", "modal");
-			var modContent = document.createElement("div");
-			modContent.setAttribute("class", "modal-content");
-			modContent.setAttribute("style", "width: 90%; padding: 0 0 0 0");
-				var modContainer = document.createElement("div");
-				modContainer.setAttribute("class", "container-fluid");
-				modContainer.setAttribute("style", "border-style: solid; border-width: .3vh;");
-					var r1 = document.createElement("div");
-					r1.setAttribute("class", "row");
-					r1.setAttribute("style", "font-size: 5vh; border-bottom-style: solid; border-width: .3vh; background: #ffddd2");
-						var col11 = document.createElement("div");
-						col11.setAttribute("class", "col-2");
-						col11.setAttribute("style", "border-right-style: solid; border-right-width: .3vh; text-align: center; background-color: lightgray;");
-						col11.appendChild(document.createTextNode("X"));
-						col11.onclick = function() {
-							mod.style.display = "none";
-						}
-						r1.appendChild(col11);
-						var col12 = document.createElement("div");
-						col12.setAttribute("class", "col-10");
-						col12.appendChild(document.createTextNode(timeText));
-						r1.appendChild(col12);
-					modContainer.appendChild(r1);
-					var r2 = document.createElement("div");
-						var imgb = document.createElement("canvas");
-						imgb.setAttribute("id", "2" + id);
-						imgb.setAttribute("width", "900px");
-						imgb.setAttribute("height", "1500px");
-						var s = new paper.PaperScope();
-						s.setup(imgb);
-						s.activate();
-						with(paper){
-							project.activeLayer.removeChildren();
-							project.importJSON(picture);
-						}
-						r2.appendChild(imgb);
-					r2.setAttribute("class", "row");
-					modContainer.appendChild(r2);
-				modContent.appendChild(modContainer);
-			mod.appendChild(modContent);
-			newDiv.appendChild(mod);
-
-			parent.appendChild(newDiv);
-
-			btn.onclick = function() {
-				console.log("hey");
-				mod.style.display = "block";
-			}
-			$("#" + id).css("width", "100%");
-			$("#" + id).css("height", "80%");
-			$("#2" + id).css("width", "100%");
-			$("#2" + id).css("height", "100%");
+			parent.appendChild(art);
 		}
-	}
+    }    
     </script>
 
 </head>
 <body>
-    <div class="container-fluid" style="background-color: #829FB7">
+    <div class="container-fluid" style="background-color: #829FB7;">
         <div class = "row" style="height: 8vh">
             <div id = "pageName">
                 Upload Artwork
             </div>
         </div>
 		<div class = "row" style="height: 50vh">
-            <div id = "img-result" class = "no-image uploadArea align-items-center d-flex justify-content-center">
-                <button id = "upload" class = "btn btn-secondary" style = "color: #F5F6F6; background-color: #829FB7">
-					<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" fill="currentColor" class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"/>
-                    </svg>
-                </button>
+            <div id = "imgDisplay" class = "saveArea align-items-center d-flex justify-content-center">
+
             </div>
         </div>
 		<div class = "row" style="height: 42vh;">

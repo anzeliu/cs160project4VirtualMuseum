@@ -99,14 +99,14 @@
 
 	/* Modal Content/Box */
 	.modal-content {
-    	background-color: #fbfbdb;
+    	background-color: #ffffff;
     	margin: 15% auto;
     	/* 15% from the top and centered */
     	border: 1px solid #888;
     	width: 80%;
 	}
 
-    #discardMessage {
+    #message {
         border-color: #30251E; 
         background-color: #a2b4ac; 
         line-height: 6vh; 
@@ -403,39 +403,34 @@
 				Color Palette
 			</div>
 		</div>
+
 		<div id="canvasSheet">
-			<div class="row justify-content-end">
-			    <div class="col-2">
-				    <a id = "newPageButton" style = "color: #000000; background-color: #ffffff; border: none" class = 'btn btn-secondary d-flex justify-content-center' role = 'button' aria-pressed = 'true'>
-					    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
-                            <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"/>
-                            <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
-                        </svg>
-				    </a>
-			    </div>
-            </div>
-            <canvas id="myCanvas" width="750px" height="750px"></canvas>
+            <canvas id="myCanvas" width="950px" height="1300px"></canvas>
 		</div>
 
 		<div id="myModal" class="modal">
 			<!-- Modal content -->
 			<div class="modal-content" style="width: 90%;">
-				<div class="container-fluid" style="border-style: solid; border-width: .3vh;">
-					<div class="row" style="font-size: 5vh; border-bottom-style: solid; border-width: .3vh; background: #ffddd2">
-						<div class="col-2 modalClose" style="border-right-style: solid; border-right-width: .3vh; text-align: center; background-color: lightgray;"> X </div>
-						<div class="col-10"> Save and Export</div>
+				<div class="container-fluid" style="border: .3vh solid #30251E;">
+					<div class="row" style="height: 10vh; font-size: 5vh; border-bottom: .3vh solid #30251E;">
+						<div class="col-2 modalClose" style="padding-top: 2vh; border-right: .3vh solid #30251E; background-color: #e6dbd0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+                            </svg> 
+                        </div>
+						<div class="col-10" id = "message">
+                            Save and Export
+                        </div>
 					</div>
 					<div class="row">
 						<canvas id="saveCanvas" width="1000px" height="1400px" style="width: 100%; height: 100%;"></canvas>
 					</div>
+                    <div class = "row d-flex justify-content-center" onclick="saveArtwork()" style="font-size: 5vh; background-color: #51624f; border-top: .3vh solid #30251E; height: 10vh">
+				        <div class="col-12" style="padding-top: 1vh; text-align: center; color: #ffffff">
+				            Save Artwork
+				        </div>
+                    </div>
 				</div>
-				<a href = "/museum/gallery" class = "btn d-flex justify-content-center" style="font-size: 5vh; background-color: #83c5be; border-style: solid; border-width: .3vh; border-color: #000000;" role = "button">
-					<div class="row" onclick="saveArtwork(); saveDate()">
-						<div class="col-12" style="text-align: center;">
-							Save To Themed Room
-						</div>
-					</div>
-				</a>
 			</div>
 		</div>
 
@@ -448,11 +443,11 @@
                                 <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
                             </svg> 
                         </div>
-						<div class="col-10" id = "discardMessage">
+						<div class="col-10" id = "message">
                             This will discard the current artwork
                         </div>
 					</div>
-					<div class="row d-flex justify-content-center" onclick="clearImage(); newPageModal.style.display='none'" style="font-size: 5vh; background-color: #51624f; border-top: .3vh solid #30251E;">
+					<div class="row d-flex justify-content-center" onclick="clearImage(); newPageModal.style.display='none'" style="font-size: 5vh; background-color: #51624f; border-top: .3vh solid #30251E;" role = "button">
 						<div class="col-12" style="text-align: center; color: #ffffff">
 							Clear Canvas
 						</div>
@@ -462,12 +457,12 @@
 		</div>
 
 		<div class="row" style="background: #ffffff; border-left: 1vw solid #e6d5aa; border-right: 1vw solid #e6d5aa; border-top: 1vh solid #e6d5aa; border-bottom: 1vh solid #e6d5aa; position: absolute; top: 85vh; height: 15.5vh; width: 100vw;">
-			<div class="col-1"></div>
+			
 			<div id="pencilDiv" class="col-2">
 				<img id="pencilIcon" src ="{% static 'museum/images/pencil.png' %}" alt="pencil" class="icon" style="width: 100%;"></img>
 			</div>
 			<div id="brushDiv" class="col-2">
-				<img id="brushIcon" src ="{% static 'museum/images/brush.png' %}" alt="brush" class="icon" style=" width: 105%;"></img>
+				<img id="brushIcon" src ="{% static 'museum/images/brush.png' %}" alt="brush" class="icon" style="width: 105%;"></img>
 			</div>
 			<div id="crayonDiv" class="col-2">
 				<img id="crayonIcon" src ="{% static 'museum/images/crayon.png' %}" alt="crayon" class="icon" style="top: 0.5vh; right: 1vw; width: 120%;"></img>
@@ -475,9 +470,17 @@
 			<div id="eraserDiv" class="col-2">
 				<img id="eraserIcon" src ="{% static 'museum/images/eraser.png' %}" alt="eraser" class="icon" style="top: 1vh; left: 1vh; width: 100%;"></img>
 			</div>
-			<div id="fillDiv" class="col-3">
-				<img id="fillIcon" src ="{% static 'museum/images/bucket.png' %}" alt="fill" class="icon" style="left: 1vh; width: 65%"></img>
+			<div id="fillDiv" class="col-2">
+				<img id="fillIcon" src ="{% static 'museum/images/bucket.png' %}" alt="fill" class="icon" style="left: 1vh; width: 100%"></img>
 			</div>
+            <div class="col-2">
+				<a id = "newPageButton" style = "padding-top: 4.5vh; color: #000000; background-color: #ffffff; border: none" class = 'btn btn-secondary d-flex justify-content-center' role = 'button' aria-pressed = 'true'>
+				    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                        <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                    </svg>
+				</a>
+            </div>
 		</div>
 
 	</div>
@@ -592,18 +595,6 @@
 				savedPics.push(picToSave);
 				console.log(savedPics);
 				localStorage.setItem("savedPics", JSON.stringify(savedPics));
-			}
-
-			function saveDate() {
-				var savedDates = JSON.parse(localStorage.getItem("savedDates"));
-				if (savedDates == null) {
-					savedDates = [];
-				}
-				var date = new Date();
-				var [month, day, year] = [date.getMonth() + 1, date.getDate(), date.getFullYear()];
-				var savedDate = "" + month + "-" + day + "-" + year;
-				savedDates.push(savedDate);
-				localStorage.setItem("savedDates", JSON.stringify(savedDates));
 			}
 
 			var newPageBtn = document.getElementById("newPageButton");

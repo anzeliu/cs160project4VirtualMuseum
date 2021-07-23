@@ -34,6 +34,9 @@ def upload_artwork(request):
 def save_artwork(request):
     return render(request, 'museum/save_artwork.html')
 
+def save_artwork_experiment(request):
+    return render(request, 'museum/save_artwork_experiment.html')
+
 def room(request, room_name):
     return render(request, 'draw/room.html', {
         'room_name': room_name

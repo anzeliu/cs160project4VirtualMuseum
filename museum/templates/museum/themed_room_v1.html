@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Themed Room V1</title>
+    <title>Themed Room</title>
 
     <link rel="stylesheet" type="text/css" href="{% static 'museum/vendor/bootstrap/css/bootstrap.min.css' %}">
     <script type="text/javascript" src="{% static 'museum/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
@@ -46,7 +46,8 @@
         font-size: 22px;
         font-weight: 400;
         color: #30251e;
-        padding-top: 20px;
+        display: inline-block;
+        margin-left: 23px;
       }
 
       h2 {
@@ -90,7 +91,6 @@
         position: fixed;
         top: 0;
         left: 0;
-        text-align: center;
       }
 
       .icon-bar-top {
@@ -178,16 +178,14 @@
 </head>
 
 <body>
-  <div class="icon-bar-top" id="top-1">
-    <!-- Home icon source: Google Material Icons - https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Ahome -->
-		<input type="image" class="top-icon" id="icon-1" src="/static/museum/images/home_black_48dp.svg"></input>
-  </div>
   <div id="top-bar">
+    <!-- Home icon source: Google Material Icons - https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Ahome -->
+   <input type="image" class="top-icon" id="icon-1" src="/static/museum/images/home_black_48dp.svg"></input>
     <h1> Humans & Environment </h1>
   </div>
   <div class="icon-bar-top" id="top-2">
-    <!-- Chat icon source: Google Material Icons - https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Achat -->
-		<input type="image" class="top-icon" id="icon-2" src="/static/museum/images/chat_black_48dp.svg"></input>
+    <!-- Monitor icon source: Google Material Icons - https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Amonitor -->
+		<input type="image" class="top-icon" id="icon-2" src="/static/museum/images/monitor_black_48dp.svg"></input>
   </div>
     <div class="container">
         <div class="row" id="featured">
@@ -254,7 +252,6 @@
             id = savedPics.length - 1;
             artwork = savedPics[savedPics.length - 1];
         }
-    }
 
     var users = {};
     var socket = new WebSocket(
@@ -289,5 +286,22 @@
     socket.onclose = function(e) {
         console.error('Chat socket closed unexpectedly');
     };
+
+    $("#icon-1").click(function(){
+        location.href = "home";
+    });
+
+    $("#icon-2").click(function(){
+        location.href = "themed_room_v2";
+    });
+
+    $("#button-1").click(function(){
+        location.href = "drawing_pad";
+    });
+
+    $("#button-2").click(function(){
+        location.href = "upload_artwork";
+    });
+
 </script>
 </html>

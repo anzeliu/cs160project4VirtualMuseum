@@ -77,10 +77,8 @@
   </div>
   <div class="container-fluid">
     <div class="row-fluid justify-content-center">
-      <div class="col-md-5">
+      <div class="col-md-5" id="theme-1">
         <h2> Humans & Environment </h2>
-        <!-- Artwork image source: Smithsonian American Art Museum - https://americanart.si.edu/artwork/valley-farms-6817 -->
-        <div class="original"><img src="/static/museum/images/valley_farms.jpeg" width=140px></div>
       </div>
       <div class="col-md-5">
         <h2> Passage of Time </h2>
@@ -96,6 +94,44 @@
 </body>
 
 <script>
+        //localStorage.clear();
+        //sessionStorage.clear();
+        //localStorage.setItem("savedPics", JSON.stringify([]));
+    var savedPics;
+    var id;
+    var artwork;
+    var myCardDisplay = document.getElementById('myCard');
+    window.onload = function() {
+		savedPics = JSON.parse(localStorage.getItem("savedPics"));
+        if (savedPics != null) {
+            id = savedPics.length - 1;
+            artwork = savedPics[savedPics.length - 1];
+        }
+    }
+
+    var users = {};
+    var socket = new WebSocket(
+        'ws://' + window.location.host + '/ws/draw');
+
+    // Add code here if you want to pass any other information.
+    var received;
+    socket.onmessage = function(receivedMessage) {
+        received = JSON.parse(receivedMessage.data);
+        console.log("Received: " + JSON.stringify(received));
+        // Display all users' artwork
+        var otherArtwork = received["display"];
+        if (otherArtwork) {
+            if ((otherArtwork in users) == false) {
+                users[otherArtwork] = otherArtwork;
+            }
+            addArtworkToCards(otherArtwork);
+        console.log(otherArtwork);
+        }
+    }
+
+    function addArtworkToCards(otherArtwork) {
+        $("#theme-1").append(otherArtwork[0]["currentSrc"]);
+    }
 
 </script>
 </html>

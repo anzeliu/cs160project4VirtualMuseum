@@ -26,7 +26,7 @@
             margin: auto;
             border: 26px solid #829FB7;
             box-sizing: border-box;
-	        background: #F5F6F6; 
+	        background: #ffffff; 
         }
 
         #uploadArrow {
@@ -67,11 +67,6 @@
 	        letter-spacing: 2px;
 	    }
 
-        .displayScreen {
-            /* background-color: #fbfbdb; */
-            border-bottom-style: dashed;
-            border-bottom-width: .3vh;
-}
     </style>
 
     <script>
@@ -80,29 +75,16 @@
         //localStorage.setItem("savedPics", JSON.stringify([]));
     window.onload = function() {
 		var savedPics = JSON.parse(localStorage.getItem("savedPics"));
-		displayArtwork(savedPics.length - 1, savedPics[savedPics.length - 1]);
-
-		function displayArtwork(id, artwork) {
-			var parent = document.getElementById("imgDisplay");
-			var newDiv = document.createElement("div");
-			newDiv.setAttribute("class", 'col-5');
-			newDiv.setAttribute("style", "height: 20vh;");
-			
-			//Image setup
-			var art = document.createElement("canvas");
-			art.setAttribute("id", id);
-			art.setAttribute("width", "1000px");
-			art.setAttribute("height", "1000px");
-			art.setAttribute("class", "displayScreen");
-			var s = new paper.PaperScope();
-			s.setup(art);
-			s.activate();
-			with(paper){
-				project.activeLayer.removeChildren();
-				project.importJSON(artwork);
-			}
-			parent.appendChild(art);
-		}
+        var id = savedPics.length - 1;
+        var artwork = savedPics[savedPics.length - 1];
+        var imgDisplay = document.getElementById('imgDisplay');
+        imgDisplay.style.backgroundImage = 'url(' + artwork + ')';
+        imgDisplay.style.backgroundSize = "contain";
+        imgDisplay.style.backgroundRepeat = "no-repeat";
+        imgDisplay.style.backgroundPositionX = "center";
+        imgDisplay.style.backgroundPositionY = "center";
+        imgDisplay.appendChild(canvas);
+        document.write(imageURL);
     }    
     </script>
 
@@ -114,12 +96,12 @@
                 Upload Artwork
             </div>
         </div>
-		<div class = "row" style="height: 50vh">
+		<div class = "row" style="height: 58vh">
             <div id = "imgDisplay" class = "saveArea align-items-center d-flex justify-content-center">
 
             </div>
         </div>
-		<div class = "row" style="height: 42vh;">
+		<div class = "row" style="height: 34vh;">
 			<div id="description">
                 <form>
                     <div class = "row" id = "doneButtonText" style = "text-align: left; border-bottom: 8px solid #829FB7;">
@@ -129,11 +111,11 @@
                     </div>
                     <div class="form-group">
                         <div id = "descriptionText">
-                            <textarea class="form-control" id = "inputDescription" placeholder="Description" rows="7" style = "font-size: 2vh"></textarea>
+                            <textarea class="form-control" id = "inputDescription" placeholder="Description" rows="5" style = "font-size: 2vh"></textarea>
                         </div>
                         <div id = "doneButton" class = "align-items-center d-flex justify-content-center" style = "padding-bottom: 0vh">
-                            <button type="submit" class="btn btn-secondary" style = "height: 9.77vh; width: 95vw" onclick="location.href = 'themed_room_v1'">
-                                <p style = "font-size: 4vh; letter-spacing: 3px;">Done</p>
+                            <button type="submit" class="btn btn-secondary" style = "width: 95vw" onclick="location.href = 'themed_room_v1'">
+                                <p style = "font-size: 4vh; letter-spacing: 3px;">Share to Themed Room</p>
                             </button>
                         </div>
                     </div>

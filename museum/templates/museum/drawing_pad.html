@@ -425,7 +425,7 @@
 					<div class="row">
 						<canvas id="saveCanvas" width="1000px" height="1400px" style="width: 100%; height: 100%;"></canvas>
 					</div>
-                    <div class = "row d-flex justify-content-center" onclick="saveArtwork()" style="font-size: 5vh; background-color: #51624f; border-top: .3vh solid #30251E; height: 10vh">
+                    <div class = "row d-flex justify-content-center" onclick="saveArtwork(); window.location.href='save_artwork'" style="font-size: 5vh; background-color: #51624f; border-top: .3vh solid #30251E; height: 10vh">
 				        <div class="col-12" style="padding-top: 1vh; text-align: center; color: #ffffff">
 				            Save Artwork
 				        </div>
@@ -592,6 +592,7 @@
 				if (savedPics == null) {
 					savedPics = [];
 				}
+                picToSave = canvas.toDataURL('image/jpeg');
 				savedPics.push(picToSave);
 				console.log(savedPics);
 				localStorage.setItem("savedPics", JSON.stringify(savedPics));

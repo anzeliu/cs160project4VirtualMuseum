@@ -281,7 +281,8 @@
         image.setAttribute('class', 'd-block');
         image.setAttribute('height', '215px');
         image.src = otherArtwork;
-        card.append(card);
+        card.append(image);
+        $(".carousel-inner").append(card);
     }
 
     socket.onclose = function(e) {

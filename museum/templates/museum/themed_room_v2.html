@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Themed Room v2</title>
+    <title>Themed Room Display</title>
 
     <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
     <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
@@ -46,7 +46,8 @@
         font-size: 22px;
         font-weight: 400;
         color: #30251e;
-        padding-top: 20px;
+        display: inline-block;
+        margin-left: 23px;
       }
 
       h2 {
@@ -63,7 +64,6 @@
         position: fixed;
         top: 0;
         left: 0;
-        text-align: center;
       }
 
       .icon-bar-top {
@@ -129,11 +129,9 @@
 </head>
 
 <body>
-  <div class="icon-bar-top" id="top-1">
+  <div id="top-bar">
     <!-- Back icon source: Google Material Icons - https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Aarrow_back -->
     <input type="image" class="top-icon" id="icon-1" src="/static/museum/images/arrow_back_black_48dp.svg"></input>
-  </div>
-  <div id="top-bar">
     <h1> Humans & Environment </h1>
   </div>
   <div class="icon-bar-top" id="top-2">
@@ -155,6 +153,14 @@
 </body>
 
 <script>
+
+  $("#icon-1").click(function(){
+      location.href = "themed_room_v1";
+  });
+
+  $("#icon-2").click(function(){
+      location.href = "chat_room";
+  });
 
 </script>
 </html>

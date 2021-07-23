@@ -592,7 +592,7 @@
 				if (savedPics == null) {
 					savedPics = [];
 				}
-                picToSave = canvas.toDataURL('image/jpeg');
+                picToSave = canvas.toDataURL('image/png');
 				savedPics.push(picToSave);
 				console.log(savedPics);
 				localStorage.setItem("savedPics", JSON.stringify(savedPics));

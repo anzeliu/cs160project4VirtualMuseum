@@ -114,6 +114,7 @@
 	</div>
 </body>
 <script>
+    //upload image to web page from local
     (function () {
     var uploader = document.createElement('input'),
     image = document.getElementById('img-result');
@@ -146,5 +147,35 @@
     document.getElementById('upload').style.display = "none";
     }
     })();
+
+    // save image and send to themed room
+    var savedPics;
+    var id;
+    var artwork = '\"'
+    window.onload = function() {
+		savedPics = JSON.parse(localStorage.getItem("savedPics"));
+        id = savedPics.length - 1;
+        artwork = savedPics[savedPics.length - 1];
+        var imgDisplay = document.getElementById('imgDisplay');
+        imgDisplay.style.backgroundImage = 'url(' + artwork + ')';
+        imgDisplay.style.backgroundSize = "contain";
+        imgDisplay.style.backgroundRepeat = "no-repeat";
+        imgDisplay.style.backgroundPositionX = "center";
+        imgDisplay.style.backgroundPositionY = "center";
+    }
+    artwork += '\"'
+
+
+    var socket = new WebSocket(
+        'ws://' + window.location.host + '/ws/draw');
+
+    // Add code here if you want to pass any information.
+    function shareToThemedRoom() {
+        socket.send("{\"artwork\" : \"" + artwork + "\"}");
+    }
+
+    socket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
 </script>
 </html>

@@ -165,8 +165,10 @@
 
     var canvas = document.getElementById("display");
     var content = canvas.getContext("2d");
+    var original = document.getElementById("original");
     var startX = 10;
     var startY = 5;
+    var images = [];
 
     // Add code here if you want to pass any other information.
     var received;
@@ -192,8 +194,8 @@
         for (var i = usersArtwork.length - 1; i >= 0; i--) {
             addArtworkToDisplay(usersArtwork[i]);
         }
-        var original = document.getElementById("original");
         content.drawImage(original, startX, startY, 90, 28);
+        images.push({image: original, x: startX, y: startY, width: 90, height: 28});
         startX += canvas.width / 3;
         if (startX >= canvas.width) {
           startX = 10;
@@ -209,6 +211,7 @@
         $("#display").append(image);
         image.onload = function() {
           content.drawImage(image, startX, startY, canvas.width / 4, canvas.height / 4);
+          images.push({image:image, x: startX, y:startY, width: canvas.width/4, height: canvas.height/4});
           startX += canvas.width / 3;
           if (startX >= canvas.width) {
             startX = 10;
@@ -240,10 +243,10 @@
       socket.send("{\"display\" : \"" + savedUsersArtwork + "\", \"largeDisplay\" : \"" + largeDisplay + "\", \"theme\" : \"Humans_Environment\"}");
   }
 
-
-    socket.onclose = function(e) {
-        console.error('Chat socket closed unexpectedly');
-    };
+  socket.onclose = function(e) {
+      console.error('Chat socket closed unexpectedly');
+  };
+  
 
     $("#display img").each(function(){
         //$(this).draggable();

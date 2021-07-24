@@ -98,9 +98,9 @@
         </div>
         <div class = "row" style = "height: 8vh">
             <div id = "doneButton" style="background-color: #829FB7;" class = "align-items-center d-flex justify-content-center">
-                <button type="submit" class="btn btn-secondary" style = "width: 95vw" onclick="window.location.href = 'themed_room_v1'; shareToThemedRoom();">
+                <a id="done" type="submit" class="btn btn-secondary" style = "width: 95vw">
                     <p style = "font-size: 4vh">Share to Themed Room</p>
-                </button>
+                </a>
             </div>
         </div>
 		<div class = "row" style="height: 58vh">
@@ -148,20 +148,20 @@
     var socket = new WebSocket(
         'ws://' + window.location.host + '/ws/draw');
 
-    // Add code here if you want to pass any information.
     function shareToThemedRoom() {
-        socket.send("{\"theme\" : " + theme + ", \"artwork\" : \"" + artwork + "\"}");;
-    }
-
-    function shareCurrentArtwork() {
-        var savedArtwork = JSON.parse(localStorage.getItem("savedArtwork"));
+        var savedArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"));
         if (savedArtwork == null) {
             savedArtwork = [];
         }
         savedArtwork.push(artwork);
-        localStorage.setItem("savedArtwork", JSON.stringify(savedArtwork));
+        localStorage.setItem("savedUsersArtwork", JSON.stringify(savedArtwork));
     }
-    
+
+    $("#done").click(function(){
+        shareToThemedRoom();
+        location.href = "themed_room_v1";
+    });
+
     socket.onclose = function(e) {
         console.error('Chat socket closed unexpectedly');
     };

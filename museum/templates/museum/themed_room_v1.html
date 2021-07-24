@@ -259,13 +259,14 @@
             addArtworkToCards(otherArtwork);
         }
     }
-    localStorage.setItem("usersArtwork", JSON.stringify(users));
 
     window.onload = function () {
         // save all the artworks shared to themed room at every loading of the web page
         var usersArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"))
         var artwork;
+        console.log(usersArtwork.length);
         for (var i = 0; i <= usersArtwork.length - 1; i++) {
+          console.log(i);
             addArtworkToCards(usersArtwork[i]);
         }
     }

@@ -104,7 +104,17 @@
 
   $("#room-1").click(function(){
       location.href = "themed_room_v1";
+      saveTheme('Humans_&_Environment');
   });
+
+  function saveTheme(theme) {
+        var savedTheme = JSON.parse(localStorage.getItem("savedTheme"));
+        if (savedTheme == null) {
+            savedTheme = [];
+        }
+        savedTheme.push(theme);
+        localStorage.setItem("savedTheme", JSON.stringify(savedTheme));
+    }
 
 </script>
 </html>

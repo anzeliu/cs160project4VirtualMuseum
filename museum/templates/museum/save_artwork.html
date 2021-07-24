@@ -115,10 +115,12 @@
         //sessionStorage.clear();
         //localStorage.setItem("savedPics", JSON.stringify([]));
     var savedPics;
+    var theme;
     var id;
     var artwork = '\"'
     window.onload = function() {
 		savedPics = JSON.parse(localStorage.getItem("savedPics"));
+        theme = JSON.parse(localStorage.getItem("savedTheme"))
         id = savedPics.length - 1;
         artwork = savedPics[savedPics.length - 1];
         var imgDisplay = document.getElementById('imgDisplay');
@@ -136,7 +138,7 @@
 
     // Add code here if you want to pass any information.
     function shareToThemedRoom() {
-        socket.send("{\"artwork\" : \"" + artwork + "\"}");
+        socket.send("{\"theme\" : " + theme + ", \"artwork\" : \"" + artwork + "\"}");
     }
 
 

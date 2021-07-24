@@ -77,7 +77,7 @@
   </div>
   <div class="container-fluid">
     <div class="row-fluid justify-content-center">
-      <div class="col-md-5" id="theme-1">
+      <div class="col-md-5" id="Humans_&_Environment">
         <h2> Humans & Environment </h2>
       </div>
       <div class="col-md-5">
@@ -102,14 +102,15 @@
     var artwork;
     var myCardDisplay = document.getElementById('myCard');
     window.onload = function() {
-		savedPics = JSON.parse(localStorage.getItem("savedPics"));
+		  savedPics = JSON.parse(localStorage.getItem("savedPics"));
         if (savedPics != null) {
             id = savedPics.length - 1;
             artwork = savedPics[savedPics.length - 1];
         }
     }
 
-    var users = {};
+    //initialize the websocket
+    var rooms = {};
     var socket = new WebSocket(
         'ws://' + window.location.host + '/ws/draw');
 
@@ -119,18 +120,24 @@
         received = JSON.parse(receivedMessage.data);
         console.log("Received: " + JSON.stringify(received));
         // Display all users' artwork
-        var otherArtwork = received["display"];
-        if (otherArtwork) {
-            if ((otherArtwork in users) == false) {
-                users[otherArtwork] = otherArtwork;
+        var themedRoom = received["display"];
+        var theme = received["theme"]
+        if (themedRoom) {
+            if ((themedRoom in rooms) == false) {
+                users[themedRoom] = otherArtwork;
             }
-            addArtworkToCards(otherArtwork);
-        console.log(otherArtwork);
+            addRoomToDisplay(themedRoom, );
+        console.log(themedRoom);
         }
     }
 
-    function addArtworkToCards(otherArtwork) {
-        $("#theme-1").append(otherArtwork[0]["currentSrc"]);
+    function addRoomToDisplay(themedRoom, theme) {
+      var themeDisplay = document.getElementById(theme)
+      themeDisplay.style.backgroundImage = 'url(' + artwork + ')';
+      themeDisplay.style.backgroundSize = "contain";
+      themeDisplay.style.backgroundRepeat = "no-repeat";
+      themeDisplay.style.backgroundPositionX = "center";
+      themeDisplay.style.backgroundPositionY = "center";
     }
 
 </script>

@@ -77,7 +77,7 @@
   </div>
   <div class="container-fluid">
     <div class="row-fluid justify-content-center">
-      <div class="col-md-5" id="Humans_&_Environment">
+      <div class="col-md-5" id="Humans_Environment">
         <h2> Humans & Environment </h2>
       </div>
       <div class="col-md-5">
@@ -120,24 +120,23 @@
         received = JSON.parse(receivedMessage.data);
         console.log("Received: " + JSON.stringify(received));
         // Display all users' artwork
-        var themedRoom = received["display"];
+        var themedRoom = received["largeDisplay"];
         var theme = received["theme"]
         if (themedRoom) {
             if ((themedRoom in rooms) == false) {
-                users[themedRoom] = otherArtwork;
+                rooms[themedRoom] = themedRoom;
             }
-            addRoomToDisplay(themedRoom, );
-        console.log(themedRoom);
+            addRoomToDisplay(themedRoom, theme);
         }
     }
 
     function addRoomToDisplay(themedRoom, theme) {
       var themeDisplay = document.getElementById(theme)
-      themeDisplay.style.backgroundImage = 'url(' + artwork + ')';
-      themeDisplay.style.backgroundSize = "contain";
+      themeDisplay.style.backgroundImage = 'url(' + themedRoom + ')';
+      themeDisplay.style.backgroundSize = "495px 600px";
       themeDisplay.style.backgroundRepeat = "no-repeat";
-      themeDisplay.style.backgroundPositionX = "center";
-      themeDisplay.style.backgroundPositionY = "center";
+      themeDisplay.style.backgroundPositionX = "20px";
+      themeDisplay.style.backgroundPositionY = "50px";
     }
 
 </script>

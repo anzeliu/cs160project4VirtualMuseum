@@ -107,12 +107,12 @@
 	}
 
     #message {
-        border-color: #30251E; 
-        background-color: #a2b4ac; 
-        line-height: 6vh; 
-        font-size: 5vh; 
-        text-align: center; 
-        padding-top: 1.5vh; 
+        border-color: #30251E;
+        background-color: #a2b4ac;
+        line-height: 6vh;
+        font-size: 5vh;
+        text-align: center;
+        padding-top: 1.5vh;
         padding-bottom: 1.5 vh;
     }
 	.close:hover,
@@ -141,7 +141,7 @@
 		saveCanvas = document.getElementById("saveCanvas");
 		mainScope = new paper.PaperScope();
 		saveScope = new paper.PaperScope();
-		
+
 		colorFromPicker = sessionStorage.getItem("color");
 		if (colorFromPicker == null){
 			colorFromPicker = "#FF0000";
@@ -152,7 +152,7 @@
 			mainScope.setup(canvas);
 			mainScope.activate();
 			console.log("running init");
-			with(paper) {	
+			with(paper) {
 				var paths = [];
 				var undonePaths = [];
 				var previousGroups = [];
@@ -191,7 +191,7 @@
 				if (previousGroups.length != 0) {
 					$('#undoButton').css("color", "black");
 				}
-				
+
 				var curPath = null;
 
 				function drawDown(event, width) {
@@ -239,7 +239,7 @@
 
 				fill = new Tool();
 				fill.onMouseDown = function(event) {
-					
+
 					console.log("clicked fill");
 					var hit = picture.hitTest(event.point, { tolerance: 10, segments: true, stroke: true, fill: true});
 					if (hit) {
@@ -250,11 +250,11 @@
 							$('#undoButton').css("color", "black");
 							hit.item.fillColor = colorFromPicker;
 						}
-						
+
 					} else {
 						console.log("no hit")
 					}
-					
+
 				}
 
 				brush = new Tool();
@@ -381,7 +381,7 @@
 				pressPButton();
 		}
 	}
-	
+
 </script>
 </head>
 <body style="overflow: hidden;">
@@ -416,7 +416,7 @@
 						<div class="col-2 modalClose" style="padding-top: 2vh; border-right: .3vh solid #30251E; background-color: #e6dbd0;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                                 <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
-                            </svg> 
+                            </svg>
                         </div>
 						<div class="col-10" id = "message">
                             Save and Export
@@ -438,10 +438,10 @@
 			<div class="modal-content" style="width: 90%; top: 16vh">
 				<div class="container-fluid" style="border: .3vh solid #30251E">
 					<div class="row" style="height: 16vh; font-size: 5vh;">
-						<div id="CloseNPM" class="col-2 modalClose" style="padding-top: 5vh; border-right: .3vh solid #30251E; background-color: #e6dbd0;"> 
+						<div id="CloseNPM" class="col-2 modalClose" style="padding-top: 5vh; border-right: .3vh solid #30251E; background-color: #e6dbd0;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                                 <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
-                            </svg> 
+                            </svg>
                         </div>
 						<div class="col-10" id = "message">
                             This will discard the current artwork
@@ -457,7 +457,7 @@
 		</div>
 
 		<div class="row" style="background: #ffffff; border-left: 1vw solid #e6d5aa; border-right: 1vw solid #e6d5aa; border-top: 1vh solid #e6d5aa; border-bottom: 1vh solid #e6d5aa; position: absolute; top: 85vh; height: 15.5vh; width: 100vw;">
-			
+
 			<div id="pencilDiv" class="col-2">
 				<img id="pencilIcon" src ="{% static 'museum/images/pencil.png' %}" alt="pencil" class="icon" style="width: 100%;"></img>
 			</div>
@@ -531,7 +531,7 @@
 			$('body').on("click", "#eraserDiv", pressEButton);
 			$('body').on("click", "#fillDiv", pressFButton);
 
-			
+
 			var picToSave;
 			function saveClick(){
 				picToSave = getPicJSON();
@@ -551,9 +551,9 @@
 				prevGroups = getPreviousGroups();
 				unGroups = getUndoneGroups();
 				sessionStorage.setItem("currentPic", currentPic);
-				sessionStorage.setItem('previousGroups', prevGroups); 
-				sessionStorage.setItem('undoneGroups', unGroups); 
-				
+				sessionStorage.setItem('previousGroups', prevGroups);
+				sessionStorage.setItem('undoneGroups', unGroups);
+
 			}
 
 			function goHome(){

@@ -113,9 +113,13 @@
                             <textarea class="form-control" id = "inputDescription" placeholder="Description" rows="5" style = "font-size: 2vh"></textarea>
                         </div>
                         <div id = "doneButton" class = "align-items-center d-flex justify-content-center" style = "padding-bottom: 0vh">
-                            <button type="submit" class="btn btn-secondary" style = "width: 95vw" onclick="window.location.href = 'themed_room_v1'; shareToThemedRoom();">
-                                <p style = "font-size: 4vh">Share to Themed Room</p>
-                            </button>
+                            <a href = "/museum/themed_room_v1" class = "btn btn-secondary d-flex justify-content-center" style = "width: 95vw">
+                                <div class = 'row'  onclick="shareToThemedRoom();">
+                                    <div class="col-12" style="text-align: center;">
+                                        <p style = "font-size: 4vh">Share to Themed Room</p>
+						            </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </form>
@@ -151,7 +155,19 @@
 
     // Add code here if you want to pass any information.
     function shareToThemedRoom() {
+        shareCurrentArtwork();
         socket.send("{\"theme\" : " + theme + ", \"artwork\" : \"" + artwork + "\"}");
+
+    }
+
+    function shareCurrentArtwork() {
+        var savedPics = JSON.parse(localStorage.getItem("savedPics"));
+			if (savedPics == null) {
+				savedPics = [];
+            }
+				savedPics.push(picToSave);
+				console.log(savedPics);
+				localStorage.setItem("savedPics", JSON.stringify(savedPics));
     }
 
 

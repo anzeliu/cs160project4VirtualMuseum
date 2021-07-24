@@ -120,7 +120,7 @@
         received = JSON.parse(receivedMessage.data);
         console.log("Received: " + JSON.stringify(received));
         // Display all users' artwork
-        var themedRoom = received["largeDisplay"];
+        var themedRoom = received["display"];
         var theme = received["theme"]
         if (themedRoom) {
             if ((themedRoom in rooms) == false) {

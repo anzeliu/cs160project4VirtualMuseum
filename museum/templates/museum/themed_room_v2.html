@@ -163,6 +163,7 @@
         //sessionStorage.clear();
         //localStorage.setItem("savedPics", JSON.stringify([]));
     var users = {};
+    var usersArtwork;
     var socket = new WebSocket(
         'ws://' + window.location.host + '/ws/draw');
 
@@ -180,28 +181,75 @@
         console.log("Received: " + JSON.stringify(received));
         // Display all users' artwork
         var otherArtwork = received["artwork"];
+        var x = received["x"];
+        var y = received["y"];
         if (otherArtwork) {
             if ((otherArtwork in users) == false) {
                 users[otherArtwork] = otherArtwork;
             }
             addArtworkToDisplay(otherArtwork);
         }
+        for (var i = usersArtwork.length -1; i >= 0; i --) {
+          if (otherArtwork == usersArtwork[i]) {
+            moveImage(i, x, y);
+          }
+        }
+    }
+
+    function moveImage(l, x, y) {
+      var len = usersArtwork.length;
+      if (l == len - 1) {
+        socketDragImage(img1, x, y);
+      }
+      if (l == len - 2) {
+        socketDragImage(img2, x, y);
+      }
+      if (l == len - 3) {
+        socketDragImage(img3, x, y);
+      }
+      if (l == len - 4) {
+        socketDragImage(img4, x, y);
+      }
+      if (l == len - 5) {
+        socketDragImage(img5, x, y);
+      }
+      if (l == len - 6) {
+        socketDragImage(img6, x, y);
+      }
+    }
+
+    function socketDragImage(img, x, y) {
+      img.setAttr('x', x);
+      img.setAttr('y', x);
     }
 
     localStorage.setItem("usersArtwork", JSON.stringify(users));
 
-  function imageDragging(imageSrc) {
-      var width = window.innerWidth;
-      var height = window.innerHeight;
+    var img1 = new Image();
+    var img2 = new Image();
+    var img3 = new Image();
+    var img4 = new Image();
+    var img5 = new Image();
+    var img6 = new Image();
+
+    var width = window.innerWidth;
+    var height = window.innerHeight/1.35;
+    var stage = JSON.parse(localStorage.getItem("savedstage"));
+    if (stage == null) {
+      stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height,
+      });
+    }
+
+    function imageDragging(usersArtwork) {
+      console.log(usersArtwork);
+      
+      var layer = new Konva.Layer();
 
       function drawImage(imageObj) {
-        var stage = new Konva.Stage({
-          container: 'container',
-          width: width,
-          height: height,
-        });
-
-        var layer = new Konva.Layer();
+        
         var Img = new Konva.Image({
           image: imageObj,
           x: stage.width() / 2 - 200 / 2,
@@ -221,47 +269,57 @@
 
         layer.add(Img);
         stage.add(layer);
+        }
+
+      var len = usersArtwork.length;
+      if (usersArtwork.length > 0){
+        img1.onload = function() {
+         drawImage(img1)
+       }
+       img1.src = usersArtwork[len - 1]; 
       }
-      var imageObj = new Image();
-      imageObj.onload = function () {
-        drawImage(this);
-      };
-      imageObj.src = imageSrc;
-  }
-    
+       
+      if (usersArtwork.length>1){
+        img2.onload = function() {
+         drawImage(img2)
+       }
+       img2.src = usersArtwork[len - 2]; 
+      } 
 
+      if (usersArtwork.length>2){
+        img3.onload = function() {
+         drawImage(img3)
+       }
+       img3.src = usersArtwork[len - 3]; 
+      } 
 
+      if (usersArtwork.length>3){
+        img4.onload = function() {
+         drawImage(img4)
+       }
+       img4.src = usersArtwork[len - 4]; 
+      } 
 
-      
+      if (usersArtwork.length>4){
+        img5.onload = function() {
+         drawImage(img5)
+       }
+       img5.src = usersArtwork[len - 5]; 
+      } 
+
+      if (usersArtwork.length>5){
+        img6.onload = function() {
+         drawImage(img6)
+       }
+       img6.src = usersArtwork[len - 6]; 
+      } 
+    }
 
     window.onload = function () {
         // save all the artworks shared to themed room at every loading of the web page
-        var usersArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"))
-        var artwork;
+        usersArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"))
         usersArtwork.push("/static/museum/images/valley_farms.jpeg");
-        for (var i = usersArtwork.length - 1; i >= 0; i--) {
-            //addArtworkToDisplay(usersArtwork[i]);
-            imageDragging(usersArtwork)
-        }
-    }
-
-    // add artwork from each user to the card area under user creations
-    function addArtworkToDisplay(usersArtwork) {
-        var image = document.createElement('img');
-        image.setAttribute('height', '120px');
-        image.src = usersArtwork
-        $("#display").append(image);
-        image.onload = function() {
-          content.drawImage(image, startX, startY, canvas.width / 4, canvas.height / 4);
-          images.push({image:image, x: startX, y:startY, width: canvas.width/4, height: canvas.height/4});
-          startX += canvas.width / 3;
-          if (startX >= canvas.width) {
-            startX = 10;
-            startY += canvas.height / 3;
-          }
-        }
-        
-        //$("#display img").draggable();
+        imageDragging(usersArtwork);
     }
 
     function saveUsersArtwork() {
@@ -275,21 +333,32 @@
         localStorage.setItem("savedUsersArtwork", JSON.stringify(savedUsersArtwork));
     }
 
+    function saveStage() {
+        var savedstage = JSON.parse(localStorage.getItem("savedstage"));
+        if (stage == null) {
+            stage = [];
+        }
+        for (artwork in users) {
+            savedUsersArtwork.push(stage);
+        }
+        localStorage.setItem("savedstage", JSON.stringify(savedstage));
+    }
+
     window.onunload = function() {
         saveUsersArtwork();
     }
 
     // Add code here if you want to pass any information.
     function shareToLargeDisplay() {
-      var savedUsersArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"));
-      socket.send("{\"display\" : \"" + savedUsersArtwork + "\", \"largeDisplay\" : \"" + largeDisplay + "\", \"theme\" : \"Humans_Environment\"}");
-  }
+      var final = stage.toDataURL();
+      console.log(final);
+      socket.send("{\"display\" : \"" + final + "\", \"theme\" : \"Humans_Environment\"}");
+    }
 
   socket.onclose = function(e) {
       console.error('Chat socket closed unexpectedly');
   };
   
-
     $("#display img").each(function(){
         //$(this).draggable();
     });
@@ -305,8 +374,6 @@
     $("#button-1").click(function(){
         shareToLargeDisplay();
     });
-
-
 
 </script>
 </html>

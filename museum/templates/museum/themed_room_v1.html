@@ -259,7 +259,7 @@
         // save all the artworks shared to themed room at every loading of the web page
         var usersArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"))
         var artwork;
-        for (var i = usersArtwork.length - 1; i >= 0; i--) {
+        for (var i = 0; i <= usersArtwork.length - 1; i++) {
             addArtworkToCards(usersArtwork[i]);
         }
     }
@@ -274,7 +274,7 @@
         image.setAttribute('style', 'border: 3px solid #7e695a');
         image.src = otherArtwork;
         card.append(image);
-        $("#userArtwork").append(card);
+        $("#userArtwork").prepend(card);
     }
 
     // save all users' artwork when reload the page
@@ -302,8 +302,7 @@
     });
 
     $("#icon-2").click(function(){
-        shareToLargeDisplay();
-        //location.href = "themed_room_v2";
+        location.href = "themed_room_v2";
     });
 
     $("#button-1").click(function(){

@@ -64,7 +64,7 @@
         font-size: 16px;
         font-weight: 400;
         color: #30251e;
-        padding-top: 0px;
+        padding-top: 15px;
         padding-left: 32px;
       }
 
@@ -109,9 +109,8 @@
       }
 
       #icon-2 {
-        width: 24px;
-        height: 24px;
-        margin-right: 16px;
+        margin-top: -6px;
+        margin-bottom: -10px;
       }
 
       .top-icon {
@@ -142,12 +141,12 @@
       }
 
       #featured {
-        margin-top: 60px;
+        margin-top: 50px;
       }
 
       #artwork .col-xs-12 {
         margin: auto;
-        margin-top: 4px;
+        margin-top: 2px;
       }
 
       #title .col-xs-12 {
@@ -156,7 +155,7 @@
       }
 
       #gallery {
-        margin-top: 5px;
+        margin-top: 1px;
         padding-left: 0px;
         padding-right: 0px;
       }
@@ -169,13 +168,18 @@
       #button-1 {
         margin-left: 20px;
         margin-right: 10px;
-        margin-top: 20px;
+        margin-top: 10px;
       }
 
       #button-2 {
         margin-left: 10px;
         margin-right: 20px;
-        margin-top: 20px;
+        margin-top: 10px;
+      }
+
+      #button-top {
+        margin-top: -10px;
+        margin-bottom: 10px;
       }
 
     </style>
@@ -186,10 +190,6 @@
     <!-- Home icon source: Google Material Icons - https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Ahome -->
    <input type="image" class="top-icon" id="icon-1" src="/static/museum/images/home_black_48dp.svg"></input>
     <h1> Humans & Environment </h1>
-  </div>
-  <div class="icon-bar-top" id="top-2">
-    <!-- Monitor icon source: Google Material Icons - https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Amonitor -->
-		<input type="image" class="top-icon" id="icon-2" src="/static/museum/images/monitor_black_48dp.svg"></input>
   </div>
     <div class="container">
         <div class="row" id="featured">
@@ -205,6 +205,13 @@
             <p> 1934, Ross Dickinson </p>
             </div>
         </div>
+        <div class="col-xs align-items-center d-flex justify-content-center" id="button-top">
+          <button id = "icon-2">
+            Design Themed Room
+            <!-- Monitor icon source: Google Material Icons - https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Amonitor -->
+            <input type="image" class="top-icon" id="icon-2" src="/static/museum/images/monitor_white_48dp.svg"></input>
+          </button>
+        </div>
         <div class="row" id="creations">
             <div class="col-xs-12">
             <h2> User Creations </h2>
@@ -212,8 +219,7 @@
         </div>
     </div>
     <div class="container" id="gallery">
-        <div class="row-fluid" id="userArtwork">
-        </div>
+        <div class="row-fluid" id="userArtwork"></div>
         <div class="row justify-content-center" id="buttons">
             <div class="col-xs-6" id="button-1">
                 <button>Create</button>
@@ -261,15 +267,17 @@
     // add artwork from each user to the card area under user creations
     function addArtworkToCards(otherArtwork) {
         var card = document.createElement('div');
-        card.setAttribute('class', "col-xs-1");
+        card.setAttribute('class', 'col-xs-1');
         var image = document.createElement('img');
         image.setAttribute('id', 'myCard');
         image.setAttribute('height', '215px');
+        image.setAttribute('style', 'border: 3px solid #7e695a');
         image.src = otherArtwork;
         card.append(image);
         $("#userArtwork").append(card);
     }
 
+    // save all users' artwork when reload the page
     function saveUsersArtwork() {
         var savedUsersArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"));
         if (savedUsersArtwork == null) {

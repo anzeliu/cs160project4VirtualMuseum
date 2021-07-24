@@ -13,6 +13,6 @@ urlpatterns = [
     path('chat_room', views.chat_room, name='chat_room'),
     path('museum_display', views.museum_display, name='museum_display'),
     path('save_artwork', views.save_artwork, name='save_artwork'),
-    path('save_artwork_experiment', views.save_artwork_experiment, name='save_artwork_experiment'), 
+    path('save_artwork_new', views.save_artwork_new, name='save_artwork_new'), 
     path('<str:room_name>/', views.room, name='room')
 ]

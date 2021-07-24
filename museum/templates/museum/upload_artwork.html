@@ -103,7 +103,7 @@
                             <textarea class="form-control" id = "inputDescription" placeholder="Description" rows="7" style = "font-size: 2vh"></textarea>
                         </div>
                         <div id = "doneButton" class = "align-items-center d-flex justify-content-center" style = "padding-bottom: 0vh">
-                            <button type="submit" class="btn btn-secondary" style = "height: 9.77vh; width: 95vw" onclick="location.href = 'themed_room_v1'">
+                            <button type="submit" class="btn btn-secondary" style = "height: 9.77vh; width: 95vw" onclick="window.location.href = 'themed_room_v1'; shareToThemedRoom()">
                                 <p style = "font-size: 4vh; letter-spacing: 3px;">Share to Themed Room</p>
                             </button>
                         </div>
@@ -114,9 +114,13 @@
 	</div>
 </body>
 <script>
+    //upload image to web page from local
+    var artwork;
+    
     (function () {
     var uploader = document.createElement('input'),
     image = document.getElementById('img-result');
+    
 
     uploader.type = 'file';
     uploader.accept = 'image/*';
@@ -126,25 +130,39 @@
     }
 
     uploader.onchange = function() {
-    var reader = new FileReader();
-    reader.onload = function(evt) {
-        image.classList.remove('no-image');
-        image.style.backgroundImage = 'url(' + evt.target.result + ')';
-        image.style.backgroundSize = "contain";
-        image.style.backgroundRepeat = "no-repeat";
-        image.style.backgroundPositionX = "center";
-        image.style.backgroundPositionY = "center";
-        var request = {
-            itemtype: 'test 1',
-            brand: 'test 2',
-            images: [{
-            data: evt.target.result
-        }]
-      };
-    }
-    reader.readAsDataURL(uploader.files[0]);
-    document.getElementById('upload').style.display = "none";
+        var reader = new FileReader();
+        reader.onload = function(evt) {
+            artwork = evt.target.result;
+            image.classList.remove('no-image');
+            image.style.backgroundImage = 'url(' + artwork + ')';
+            image.style.backgroundSize = "contain";
+            image.style.backgroundRepeat = "no-repeat";
+            image.style.backgroundPositionX = "center";
+            image.style.backgroundPositionY = "center";
+            var request = {
+                itemtype: 'test 1',
+                brand: 'test 2',
+                images: [{
+                    data: evt.target.result
+                }]
+            };
+        }
+        reader.readAsDataURL(uploader.files[0]);
+        document.getElementById('upload').style.display = "none";
     }
     })();
+
+    // save image and send to themed room
+    var socket = new WebSocket(
+        'ws://' + window.location.host + '/ws/draw');
+
+    // Add code here if you want to pass any information.
+    function shareToThemedRoom() {
+        socket.send("{\"artwork\" : \"" + artwork + "\"}");
+    }
+
+    socket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
 </script>
 </html>

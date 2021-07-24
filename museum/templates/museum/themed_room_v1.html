@@ -240,6 +240,12 @@
         'ws://' + window.location.host + '/ws/draw');
 
     // Add code here if you want to pass any other information.
+    var savedArtwork = JSON.parse(localStorage.getItem("savedArtwork"));
+    console.log("Received: " + JSON.stringify(savedArtwork));
+    if (savedArtwork != null) {
+      addArtworkToCards(savedArtwork[savedArtwork.length - 1]);
+    }
+
     var received;
     socket.onmessage = function(receivedMessage) {
         received = JSON.parse(receivedMessage.data);

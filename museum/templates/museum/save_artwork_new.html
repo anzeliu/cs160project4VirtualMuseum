@@ -150,12 +150,21 @@
 
     // Add code here if you want to pass any information.
     function shareToThemedRoom() {
-        socket.send("{\"artwork\" : \"" + artwork + "\"}");
+        socket.send("{\"theme\" : " + theme + ", \"artwork\" : \"" + artwork + "\"}");;
     }
 
-
+    function shareCurrentArtwork() {
+        var savedArtwork = JSON.parse(localStorage.getItem("savedArtwork"));
+        if (savedArtwork == null) {
+            savedArtwork = [];
+        }
+        savedArtwork.push(artwork);
+        localStorage.setItem("savedArtwork", JSON.stringify(savedArtwork));
+    }
+    
     socket.onclose = function(e) {
         console.error('Chat socket closed unexpectedly');
     };
+
 </script>
 </html>

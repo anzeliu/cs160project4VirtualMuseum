@@ -87,7 +87,7 @@
     <div class="container-fluid" style="background-color: #829FB7">
         <div class = "row" style="height: 8vh">
             <div class = "col-2" id = "pageName" style = "background-color: #e6dbd0; border-radius: 18px" >
-                <svg  onclick = "window.location.href='drawing_pad'" xmlns="http://www.w3.org/2000/svg" width="88" height="100" fill="#30251e" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <svg  onclick = "window.location.href='themed_room_v1'" xmlns="http://www.w3.org/2000/svg" width="88" height="100" fill="#30251e" class="bi bi-arrow-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
                 </svg>
             </div>
@@ -117,9 +117,9 @@
                             <textarea class="form-control" id = "inputDescription" placeholder="Description" rows="5" style = "font-size: 2vh"></textarea>
                         </div>
                         <div id = "doneButton" class = "align-items-center d-flex justify-content-center" style = "padding-bottom: 0vh">
-                            <button type="submit" class="btn btn-secondary" style = "width: 95vw" onclick="window.location.href = 'themed_room_v1'; shareToThemedRoom()">
-                                <p style = "font-size: 4vh">Share to Themed Room</p>
-                            </button>
+                            <a id="done" type="submit" class="btn btn-secondary" style = "width: 95vw">
+                                <p style = "font-size: 4vh">Add to Themed Room</p>
+                            </a>
                         </div>
                     </div>
                 </form>
@@ -170,10 +170,19 @@
     var socket = new WebSocket(
         'ws://' + window.location.host + '/ws/draw');
 
-    // Add code here if you want to pass any information.
-    function shareToThemedRoom() {
-        socket.send("{\"artwork\" : \"" + artwork + "\"}");
+      function shareToThemedRoom() {
+        var savedArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"));
+        if (savedArtwork == null) {
+            savedArtwork = [];
+        }
+        savedArtwork.push(artwork);
+        localStorage.setItem("savedUsersArtwork", JSON.stringify(savedArtwork));
     }
+
+    $("#done").click(function(){
+        shareToThemedRoom();
+        location.href = "themed_room_v1";
+    });
 
     socket.onclose = function(e) {
         console.error('Chat socket closed unexpectedly');

@@ -215,16 +215,7 @@
 
     // Add code here if you want to pass any information.
     function shareToLargeDisplay() {
-      var display = $('#display');
-      var getCanvas;
-      html2canvas(element, {
-        onrendered: function(canvas) {
-          getCanvas = canvas;
-        }
-      });
-
-      var imageData = getCanvas.toDataURL("image/png");
-
+      var display = document.getElementById('display');
       var savedUsersArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"));
       socket.send("{\"display\" : \"" + savedUsersArtwork + "\"}");
   }

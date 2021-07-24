@@ -239,33 +239,14 @@
     var socket = new WebSocket(
         'ws://' + window.location.host + '/ws/draw');
 
-    // Add code here if you want to pass any other information.
-    var savedArtwork = JSON.parse(localStorage.getItem("savedArtwork"));
-    console.log("Received: " + JSON.stringify(savedArtwork));
-    if (savedArtwork != null) {
-      addArtworkToCards(savedArtwork[savedArtwork.length - 1]);
-    }
-
-    var received;
-    socket.onmessage = function(receivedMessage) {
-        received = JSON.parse(receivedMessage.data);
-        console.log("Received: " + JSON.stringify(received));
-        // Display all users' artwork
-        var otherArtwork = received["artwork"];
-        if (otherArtwork) {
-            if ((otherArtwork in users) == false) {
-                users[otherArtwork] = otherArtwork;
-            }
-            addArtworkToCards(otherArtwork);
-        }
-    }
-    localStorage.setItem("usersArtwork", JSON.stringify(users));
 
     window.onload = function () {
         // save all the artworks shared to themed room at every loading of the web page
         var usersArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"))
         var artwork;
+        console.log(usersArtwork.length);
         for (var i = 0; i <= usersArtwork.length - 1; i++) {
+          console.log(i);
             addArtworkToCards(usersArtwork[i]);
         }
     }
@@ -282,22 +263,7 @@
         card.append(image);
         $("#userArtwork").prepend(card);
     }
-
-    // save all users' artwork when reload the page
-    function saveUsersArtwork() {
-        var savedUsersArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"));
-        if (savedUsersArtwork == null) {
-            savedUsersArtwork = [];
-        }
-        for (artwork in users) {
-            savedUsersArtwork.push(artwork);
-        }
-        localStorage.setItem("savedUsersArtwork", JSON.stringify(savedUsersArtwork));
-    }
-
-    window.onunload = function() {
-        saveUsersArtwork();
-    }
+    
 
     socket.onclose = function(e) {
         console.error('Chat socket closed unexpectedly');

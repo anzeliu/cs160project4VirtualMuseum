@@ -19,6 +19,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
+    <!-- artwork draggable source: https://konvajs.org/docs/drag_and_drop/Drag_an_Image.html -->
+    <script src="https://unpkg.com/konva@8.1.1/konva.min.js"></script>
+
     <style type="text/css">
 
       body {
@@ -145,10 +148,9 @@
   <div class="container">
     <div class="row" id="preview">
       <div class="col-xs-12"><h2> Display Preview </h2></div>
-      <canvas id="display">
-        <!-- Artwork image source: Smithsonian American Art Museum - https://americanart.si.edu/artwork/valley-farms-6817 -->
-        <img id="original" src="/static/museum/images/valley_farms.jpeg" width=120px>
-      </canvas>
+        <!-- <img id="original" src="/static/museum/images/valley_farms.jpeg" width=120px>Artwork image source: Smithsonian American Art Museum - https://americanart.si.edu/artwork/valley-farms-6817 -->
+      
+      <div id="container"></div>
     </div>
     <div class="row justify-content-center" id="buttons">
       <div class="col-xs-12" id="button-1"><button>Share to Large Display</button></div>
@@ -157,15 +159,15 @@
 </body>
 
 <script>
-        //localStorage.clear();
+    //localStorage.clear();
         //sessionStorage.clear();
         //localStorage.setItem("savedPics", JSON.stringify([]));
     var users = {};
     var socket = new WebSocket(
         'ws://' + window.location.host + '/ws/draw');
 
-    var canvas = document.getElementById("display");
-    var content = canvas.getContext("2d");
+    //var canvas = document.getElementById("display");
+    //var content = canvas.getContext("2d");
     var original = document.getElementById("original");
     var startX = 10;
     var startY = 5;
@@ -188,19 +190,58 @@
 
     localStorage.setItem("usersArtwork", JSON.stringify(users));
 
+  function imageDragging(imageSrc) {
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      function drawImage(imageObj) {
+        var stage = new Konva.Stage({
+          container: 'container',
+          width: width,
+          height: height,
+        });
+
+        var layer = new Konva.Layer();
+        var Img = new Konva.Image({
+          image: imageObj,
+          x: stage.width() / 2 - 200 / 2,
+          y: stage.height() / 2 - 137 / 2,
+          width: 200,
+          height: 137,
+          draggable: true,
+        });
+
+        // add cursor styling
+        Img.on('mouseover', function () {
+          document.body.style.cursor = 'pointer';
+        });
+        Img.on('mouseout', function () {
+          document.body.style.cursor = 'default';
+        });
+
+        layer.add(Img);
+        stage.add(layer);
+      }
+      var imageObj = new Image();
+      imageObj.onload = function () {
+        drawImage(this);
+      };
+      imageObj.src = imageSrc;
+  }
+    
+
+
+
+      
+
     window.onload = function () {
         // save all the artworks shared to themed room at every loading of the web page
         var usersArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"))
         var artwork;
+        usersArtwork.push("/static/museum/images/valley_farms.jpeg");
         for (var i = usersArtwork.length - 1; i >= 0; i--) {
-            addArtworkToDisplay(usersArtwork[i]);
-        }
-        content.drawImage(original, startX, startY, 90, 28);
-        images.push({image: original, x: startX, y: startY, width: 90, height: 28});
-        startX += canvas.width / 3;
-        if (startX >= canvas.width) {
-          startX = 10;
-          startY += canvas.height / 3;
+            //addArtworkToDisplay(usersArtwork[i]);
+            imageDragging(usersArtwork)
         }
     }
 
@@ -219,6 +260,7 @@
             startY += canvas.height / 3;
           }
         }
+        
         //$("#display img").draggable();
     }
 
@@ -239,7 +281,6 @@
 
     // Add code here if you want to pass any information.
     function shareToLargeDisplay() {
-      var largeDisplay = canvas.toDataURL();
       var savedUsersArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"));
       socket.send("{\"display\" : \"" + savedUsersArtwork + "\", \"largeDisplay\" : \"" + largeDisplay + "\", \"theme\" : \"Humans_Environment\"}");
   }

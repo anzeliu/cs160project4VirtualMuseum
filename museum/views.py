@@ -28,6 +28,9 @@ def themed_room_v1(request):
 def themed_room_v2(request):
     return render(request, 'museum/themed_room_v2.html')
 
+def themed_room_v2_variant(request):
+    return render(request, 'museum/themed_room_v2_variant.html')
+
 def upload_artwork(request):
     return render(request, 'museum/upload_artwork.html')
 

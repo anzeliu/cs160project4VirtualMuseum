@@ -108,7 +108,7 @@
       }
 
       .container {
-        margin-top: 53px;
+        margin-top: 50px;
       }
 
       #display {
@@ -122,11 +122,15 @@
       }
 
       #preview {
-        margin-top: 60px;
+        margin-top: 0px;
       }
 
       #button-1 {
         margin: auto;
+        margin-top: 10px;
+      }
+
+      #container {
         margin-top: 20px;
       }
 
@@ -141,21 +145,23 @@
     <input type="image" class="top-icon" id="icon-1" src="/static/museum/images/arrow_back_black_48dp.svg"></input>
     <h1> Humans & Environment </h1>
   </div>
+
   <div class="icon-bar-top" id="top-2">
     <!-- Chat icon source: Google Material Icons - https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Achat -->
 		<input type="image" class="top-icon" id="icon-2" src="/static/museum/images/chat_black_48dp.svg"></input>
   </div>
+  
   <div class="container">
+    <div class="row justify-content-center" id="buttons">
+        <div class="col-xs-12" id="button-1"><button>Share to Large Display</button></div>
+    </div>
     <div class="row" id="preview">
       <div class="col-xs-12"><h2> Display Preview </h2></div>
         <!-- <img id="original" src="/static/museum/images/valley_farms.jpeg" width=120px>Artwork image source: Smithsonian American Art Museum - https://americanart.si.edu/artwork/valley-farms-6817 -->
-      
-    <div id="container"></div>
-    </div>
-    <div class="row justify-content-center" id="buttons">
-      <div class="col-xs-12" id="button-1"><button>Share to Large Display</button></div>
+      <div id="container"></div>
     </div>
   </div>
+
 </body>
 
 <script>

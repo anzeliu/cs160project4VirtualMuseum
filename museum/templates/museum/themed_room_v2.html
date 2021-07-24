@@ -145,10 +145,10 @@
   <div class="container">
     <div class="row" id="preview">
       <div class="col-xs-12"><h2> Display Preview </h2></div>
-      <div id="display">
+      <canvas id="display">
         <!-- Artwork image source: Smithsonian American Art Museum - https://americanart.si.edu/artwork/valley-farms-6817 -->
-        <img src="/static/museum/images/valley_farms.jpeg" width=120px>
-      </div>
+        <img id="original" src="/static/museum/images/valley_farms.jpeg" width=120px>
+      </canvas>
     </div>
     <div class="row justify-content-center" id="buttons">
       <div class="col-xs-12" id="button-1"><button>Share to Large Display</button></div>
@@ -164,6 +164,11 @@
     var socket = new WebSocket(
         'ws://' + window.location.host + '/ws/draw');
 
+    var canvas = document.getElementById("display");
+    var content = canvas.getContext("2d");
+    var startX = 10;
+    var startY = 5;
+
     // Add code here if you want to pass any other information.
     var received;
     socket.onmessage = function(receivedMessage) {
@@ -177,8 +182,8 @@
             }
             addArtworkToDisplay(otherArtwork);
         }
-
     }
+
     localStorage.setItem("usersArtwork", JSON.stringify(users));
 
     window.onload = function () {
@@ -188,6 +193,13 @@
         for (var i = usersArtwork.length - 1; i >= 0; i--) {
             addArtworkToDisplay(usersArtwork[i]);
         }
+        var original = document.getElementById("original");
+        content.drawImage(original, startX, startY, 90, 28);
+        startX += canvas.width / 3;
+        if (startX >= canvas.width) {
+          startX = 10;
+          startY += canvas.height / 3;
+        }
     }
 
     // add artwork from each user to the card area under user creations
@@ -196,7 +208,15 @@
         image.setAttribute('height', '120px');
         image.src = usersArtwork
         $("#display").append(image);
-        $("#display img").draggable();
+        image.onload = function() {
+          content.drawImage(image, startX, startY, canvas.width / 4, canvas.height / 4);
+          startX += canvas.width / 3;
+          if (startX >= canvas.width) {
+            startX = 10;
+            startY += canvas.height / 3;
+          }
+        }
+        //$("#display img").draggable();
     }
 
     function saveUsersArtwork() {
@@ -216,9 +236,9 @@
 
     // Add code here if you want to pass any information.
     function shareToLargeDisplay() {
-      var display = document.getElementById('display');
+      var largeDisplay = canvas.toDataURL();
       var savedUsersArtwork = JSON.parse(localStorage.getItem("savedUsersArtwork"));
-      socket.send("{\"display\" : \"" + savedUsersArtwork + "\"}");
+      socket.send("{\"display\" : \"" + savedUsersArtwork + "\", \"largeDisplay\" : \"" + largeDisplay + "\", \"theme\" : \"Humans_Environment\"}");
   }
 
 
@@ -227,7 +247,7 @@
     };
 
     $("#display img").each(function(){
-        $(this).draggable();
+        //$(this).draggable();
     });
 
     $("#icon-1").click(function(){

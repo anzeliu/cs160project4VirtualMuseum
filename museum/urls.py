@@ -26,6 +26,8 @@ urlpatterns = [
     path('drawing_pad_variant', views.drawing_pad_variant, name='drawing_pad_variant'),
     
     path('color_picker', views.color_picker, name='color_picker'),
+
+    path('color_picker_variant', views.color_picker_variant, name='color_picker_variant'),
     
     path('chat_room', views.chat_room, name='chat_room'),
     

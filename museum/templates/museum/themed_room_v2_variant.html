@@ -165,9 +165,8 @@
 </body>
 
 <script>
-    //localStorage.clear();
-        //sessionStorage.clear();
-        //localStorage.setItem("savedPics", JSON.stringify([]));
+      //localStorage.clear();
+      //sessionStorage.clear();
     var users = {};
     var usersArtwork;
     var socket = new WebSocket(
@@ -215,11 +214,11 @@
 
     function imageDragging(usersArtwork) {
       console.log(usersArtwork);
-      
+
       var layer = new Konva.Layer();
 
       function drawImage(imageObj) {
-        
+
         var Img = new Konva.Image({
           image: imageObj,
           x: stage.width() / 2 - 200 / 2,
@@ -246,43 +245,43 @@
         img1.onload = function() {
          drawImage(img1)
        }
-       img1.src = usersArtwork[len - 1]; 
+       img1.src = usersArtwork[len - 1];
       }
-       
+
       if (usersArtwork.length>1){
         img2.onload = function() {
          drawImage(img2)
        }
-       img2.src = usersArtwork[len - 2]; 
-      } 
+       img2.src = usersArtwork[len - 2];
+      }
 
       if (usersArtwork.length>2){
         img3.onload = function() {
          drawImage(img3)
        }
-       img3.src = usersArtwork[len - 3]; 
-      } 
+       img3.src = usersArtwork[len - 3];
+      }
 
       if (usersArtwork.length>3){
         img4.onload = function() {
          drawImage(img4)
        }
-       img4.src = usersArtwork[len - 4]; 
-      } 
+       img4.src = usersArtwork[len - 4];
+      }
 
       if (usersArtwork.length>4){
         img5.onload = function() {
          drawImage(img5)
        }
-       img5.src = usersArtwork[len - 5]; 
-      } 
+       img5.src = usersArtwork[len - 5];
+      }
 
       if (usersArtwork.length>5){
         img6.onload = function() {
          drawImage(img6)
        }
-       img6.src = usersArtwork[len - 6]; 
-      } 
+       img6.src = usersArtwork[len - 6];
+      }
     }
 
     window.onload = function () {
@@ -322,19 +321,31 @@
     function shareToLargeDisplay() {
       var final = stage.toDataURL();
       console.log(final);
+      var savedFinals = JSON.parse(localStorage.getItem("savedFinals"));
+      var savedHeadings = JSON.parse(localStorage.getItem("savedHeadings"));
+      if (savedFinals == null) {
+          savedFinals = [];
+      }
+      if (savedHeadings == null) {
+          savedHeadings = [];
+      }
+      savedFinals.push(final);
+      savedHeadings.push("Humans_Environment");
+      localStorage.setItem("savedFinals", JSON.stringify(savedFinals));
+      localStorage.setItem("savedHeadings", JSON.stringify(savedHeadings));
       socket.send("{\"display\" : \"" + final + "\", \"theme\" : \"Humans_Environment\"}");
     }
 
   socket.onclose = function(e) {
       console.error('Chat socket closed unexpectedly');
   };
-  
+
     $("#display img").each(function(){
         //$(this).draggable();
     });
 
     $("#icon-1").click(function(){
-        location.href = "themed_room_v1";
+        location.href = "themed_room_v1_variant";
     });
 
     $("#icon-2").click(function(){

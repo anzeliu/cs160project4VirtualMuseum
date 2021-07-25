@@ -16,6 +16,9 @@ def chat_room(request):
 def color_picker(request):
     return render(request, 'museum/color_picker.html')
 
+def color_picker_variant(request):
+    return render(request, 'museum/color_picker_variant.html')
+
 def drawing_pad(request):
     return render(request, 'museum/drawing_pad.html')
 
